@@ -14,6 +14,10 @@ public enum ErrorStatus {
     FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON403", "금지된 요청입니다."),
 
 
+    //메일관련 예외 코드
+    MAIL_NOT_FIND(HttpStatus.BAD_REQUEST,"MAIL400","잘못된 메일입니다."),
+    MAIL_NOT_SEND(HttpStatus.BAD_REQUEST,"MAIL401","메일 전송을 실패했습니다."),
+
     ;
     private final HttpStatus httpStatus;
     private final String code;
