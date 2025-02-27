@@ -93,7 +93,7 @@ jobs:
           COMPOSE: "/home/ubuntu/docker-compose.yml"
         with:
           host: ${{ secrets.RELEASE_EC2_HOST }}
-          username: ubuntu
+          username: ec2-user
           key: ${{ secrets.RELEASE_SSH_KEY }}
           script: |
             echo "ECR_URI=${{ secrets.ECR_URI }}" > /home/ubuntu/.env
