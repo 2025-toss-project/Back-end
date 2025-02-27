@@ -1,0 +1,3 @@
+[submodule "server-submodule"]
+	path = server-submodule
+	url = https://github.com/2025-toss-project/server-submodule.git
