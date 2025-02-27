@@ -36,7 +36,4 @@ public class Member extends BaseEntity {
 
     private Point myLocation;
 
-
-
-
 }

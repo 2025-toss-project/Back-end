@@ -11,6 +11,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import java.util.Date;
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import payroad.domain.category.Category;
@@ -45,5 +47,16 @@ public class Consumption extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "map_id")
     private Map map;
+
+    @Builder
+    private Consumption(Integer price, String details, Date date, Category category, Member member,
+        Map map) {
+        this.price = price;
+        this.details = details;
+        this.date = date;
+        this.category = category;
+        this.member = member;
+        this.map = map;
+    }
 
 }
