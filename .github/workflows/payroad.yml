@@ -101,7 +101,7 @@ jobs:
             echo "SPRING_PROFILES=dev" >> /home/ubuntu/.env
             
             sudo docker stop $(sudo docker ps -a -q) || true
-            sudo docker rm $(sudo docker ps -a -q) || true
+            # sudo docker rm $(sudo docker ps -a -q) || true
             sudo docker images -q | xargs -r docker rmi || true
             sudo docker system prune -af
             aws ecr get-login-password --region ap-northeast-2 | sudo docker login --username AWS --password-stdin ${{ secrets.ECR_URI }} && sudo docker pull ${{ secrets.ECR_URI }}:${{ github.sha }}
@@ -123,7 +123,7 @@ jobs:
             echo "SPRING_PROFILES=prod" >> /home/ubuntu/.env
             
             sudo docker stop $(sudo docker ps -a -q) || true
-            sudo docker rm $(sudo docker ps -a -q) || true
+            # sudo docker rm $(sudo docker ps -a -q) || true
             sudo docker images -q | xargs -r docker rmi || true
             sudo docker system prune -af
             aws ecr get-login-password --region ap-northeast-2 | sudo docker login --username AWS --password-stdin ${{ secrets.ECR_URI }} && sudo docker pull ${{ secrets.ECR_URI }}:${{ github.sha }}
