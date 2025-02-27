@@ -89,16 +89,16 @@ jobs:
         if: github.ref == 'refs/heads/release'
         uses: appleboy/ssh-action@master
         env:
-          ENV_FILE: "/home/ubuntu/.env"
-          COMPOSE: "/home/ubuntu/docker-compose.yml"
+          ENV_FILE: "/home/ec2-user/.env"
+          COMPOSE: "/home/ec2-user/docker-compose.yml"
         with:
           host: ${{ secrets.RELEASE_EC2_HOST }}
           username: ec2-user
           key: ${{ secrets.RELEASE_SSH_KEY }}
           script: |
-            echo "ECR_URI=${{ secrets.ECR_URI }}" > /home/ubuntu/.env
-            echo "GITHUB_SHA=${{ github.sha }}" >> /home/ubuntu/.env
-            echo "SPRING_PROFILES=dev" >> /home/ubuntu/.env
+            echo "ECR_URI=${{ secrets.ECR_URI }}" > /home/ec2-user/.env
+            echo "GITHUB_SHA=${{ github.sha }}" >> /home/ec2-user/.env
+            echo "SPRING_PROFILES=dev" >> /home/ec2-user/.env
             
             sudo docker stop $(sudo docker ps -a -q) || true
             sudo docker rm $(sudo docker ps -a -q) || true
@@ -107,7 +107,7 @@ jobs:
             aws ecr get-login-password --region ap-northeast-2 | sudo docker login --username AWS --password-stdin ${{ secrets.ECR_URI }} && sudo docker pull ${{ secrets.ECR_URI }}:${{ github.sha }}
 
             # Docker Compose로 배포
-            sudo -E docker-compose -f /home/ubuntu/docker-compose.yml up -d
+            sudo -E docker-compose -f /home/ec2-user/docker-compose.yml up -d
             
       # Deploy to EC2 (Main Branch)
       - name: Deploy to EC2 (Main Branch)
