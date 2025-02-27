@@ -18,6 +18,15 @@ public enum ErrorStatus {
     MAIL_NOT_FIND(HttpStatus.BAD_REQUEST,"MAIL400","잘못된 메일입니다."),
     MAIL_NOT_SEND(HttpStatus.BAD_REQUEST,"MAIL401","메일 전송을 실패했습니다."),
 
+
+    // 예산금액 관리 예외 코드
+    BUDGET_EMPTY(HttpStatus.BAD_REQUEST,"BUDGET400","예산금액 설정이 필요합니다."),
+    BUDGET_NOT_FIND(HttpStatus.BAD_REQUEST,"BUDGET401","해당 예산 금액이 없습니다."),
+
+
+    // 카테고리 관련 예외 코드
+    CATEGORY_NOT_FIND(HttpStatus.BAD_REQUEST,"CATEGORY400","해당 카테고리를 찾을수없습니다.")
+
     ;
     private final HttpStatus httpStatus;
     private final String code;
