@@ -41,9 +41,6 @@ dependencies {
     //redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis:3.3.4'
 
-    //로컬 redis 사용
-    implementation 'it.ozimov:embedded-redis:0.7.2'
-
     //rds
     implementation 'mysql:mysql-connector-java:8.0.33'
 
