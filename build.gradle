@@ -44,11 +44,14 @@ dependencies {
     //로컬 redis 사용
     implementation 'it.ozimov:embedded-redis:0.7.2'
 
+    //rds
+    implementation 'mysql:mysql-connector-java:8.0.33'
+
     //swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
-    //h2 db
-//    runtimeOnly 'com.h2database:h2'
+    //ssh tunnel
+    implementation 'com.github.mwiede:jsch:0.2.16'
 
     //mysql db
     runtimeOnly 'com.mysql:mysql-connector-j'

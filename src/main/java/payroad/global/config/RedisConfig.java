@@ -1,5 +1,6 @@
 package payroad.global.config;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -13,25 +14,38 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Slf4j
 @Configuration
+@RequiredArgsConstructor
 @EnableRedisRepositories(basePackages = {
     "payroad.global.verification.repository",
 })
 public class RedisConfig {
+    private final SSHConfig initializer;
 
-    @Value("${spring.data.redis.port}")
+    @Value("${server}")
+    private String isServer;
+
+    @Value("${cloud.aws.ec2.redis_endpoint}")
+    private String redisEndpoint;
+
+    @Value("${cloud.aws.ec2.redis_port}")
     private int redisPort;
-
-    @Value("${spring.data.redis.host}")
-    private String redisHost;
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
+        String host = redisEndpoint;
+        int port = redisPort;
 
-        log.info("Redis connection through SSH: host={}, port={}", redisHost, redisPort);
+        // SSH 터널을 통해 Redis에 연결해야 할 경우
+        if (isServer.equals("false")) {
+            Integer forwardedPort = initializer.buildSshConnection(redisEndpoint, redisPort);
+            host = "localhost";
+            port = forwardedPort;
+        }
 
-        return new LettuceConnectionFactory(redisHost, redisPort);
+        log.info("Redis connection through SSH: host={}, port={}", host, port);
+
+        return new LettuceConnectionFactory(host, port);
     }
-
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate(
