@@ -25,7 +25,12 @@ public enum ErrorStatus {
 
 
     // 카테고리 관련 예외 코드
-    CATEGORY_NOT_FIND(HttpStatus.BAD_REQUEST,"CATEGORY400","해당 카테고리를 찾을수없습니다.")
+    CATEGORY_NOT_FIND(HttpStatus.BAD_REQUEST,"CATEGORY400","해당 카테고리를 찾을수없습니다."),
+
+
+    // 지출 내용 관련 예외코드
+    CONSUMPTION_NOT_FIND(HttpStatus.BAD_REQUEST,"CONSUMPTION400","해당 지출내역이 없습니다.")
+
 
     ;
     private final HttpStatus httpStatus;

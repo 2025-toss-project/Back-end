@@ -8,11 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import java.util.Date;
+import java.time.LocalDate;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import payroad.domain.category.Category;
@@ -22,19 +20,19 @@ import payroad.domain.member.Member;
 
 @Entity
 @NoArgsConstructor
+@Getter
 public class Consumption extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "consumption_id")
-    @Getter
     private Long id;
 
     private Integer price;
 
     private String details;
 
-    private Date date;
+    private LocalDate date;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "category_id")
@@ -49,7 +47,7 @@ public class Consumption extends BaseEntity {
     private Map map;
 
     @Builder
-    private Consumption(Integer price, String details, Date date, Category category, Member member,
+    private Consumption(Integer price, String details, LocalDate date, Category category, Member member,
         Map map) {
         this.price = price;
         this.details = details;

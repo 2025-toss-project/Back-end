@@ -21,4 +21,18 @@ public interface ConsumptionRepository extends JpaRepository<Consumption, Long> 
         @Param("year") int year
     );
 
+    // 시작과 끝 일자에 대해서 consumption의 값을 불러오는 쿼리를 날린다.
+    @Query("SELECT c FROM Consumption c WHERE c.member = :member " +
+        "AND (MONTH(c.date) > :startMonth " +
+        "OR (MONTH(c.date) = :startMonth AND DAY(c.date) >= :startDay)) " +
+        "AND (MONTH(c.date) < :endMonth " +
+        "OR (MONTH(c.date) = :endMonth AND DAY(c.date) <= :endDay))")
+    List<Consumption> findByMemberAndDateRange(
+        @Param("member") Member member,
+        @Param("startMonth") int startMonth,
+        @Param("startDay") int startDay,
+        @Param("endMonth") int endMonth,
+        @Param("endDay") int endDay
+    );
+
 }
