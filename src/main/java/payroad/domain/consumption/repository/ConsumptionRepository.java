@@ -35,4 +35,19 @@ public interface ConsumptionRepository extends JpaRepository<Consumption, Long> 
         @Param("endDay") int endDay
     );
 
+    // 특정 Member ID를 기반으로 소비 내역 찾기 (JPQL 사용)
+    @Query("SELECT c FROM Consumption c WHERE c.member.id = :memberId")
+    List<Consumption> findByMemberId(@Param("memberId") Long memberId);
+
+
+    @Query(value = "SELECT * FROM consumption c " +
+        "JOIN map m ON c.map_id = m.map_id " +
+        "WHERE c.member_id = :memberId " +
+        "AND ST_Distance_Sphere(m.location, ST_GeomFromText(:point, 4326)) <= :radius * 1000",
+        nativeQuery = true)
+    List<Consumption> findConsumptionsByMemberAndRadius(
+        @Param("memberId") Long memberId,
+        @Param("point") String point,  // "POINT(lng lat)" 형식의 문자열
+        @Param("radius") double radius);
+
 }

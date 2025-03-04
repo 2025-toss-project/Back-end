@@ -7,12 +7,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
-import java.awt.Point;
+import lombok.Getter;
+import org.locationtech.jts.geom.Point;
 import lombok.NoArgsConstructor;
 import payroad.domain.common.BaseEntity;
 
 @Entity
 @NoArgsConstructor
+@Getter
 public class Member extends BaseEntity {
 
     @Id
@@ -34,6 +36,7 @@ public class Member extends BaseEntity {
 
     private Type type;
 
+    @Column(nullable = false, columnDefinition = "GEOMETRY")
     private Point myLocation;
 
 }

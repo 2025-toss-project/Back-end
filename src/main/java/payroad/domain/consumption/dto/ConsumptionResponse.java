@@ -1,14 +1,10 @@
 package payroad.domain.consumption.dto;
 
-import jakarta.validation.constraints.NotNull;
-import java.awt.Point;
-import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 public abstract class ConsumptionResponse {
 
@@ -22,7 +18,8 @@ public abstract class ConsumptionResponse {
         private int price;
         private String category;
         private String details;
-        private Point point;
+        private Double lat;
+        private Double lng;
         private String point_name;
     }
 

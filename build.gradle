@@ -53,6 +53,11 @@ dependencies {
     //mysql db
     runtimeOnly 'com.mysql:mysql-connector-j'
 
+    //지도 의존성
+    implementation 'org.hibernate:hibernate-spatial:6.5.1.Final'
+    implementation 'org.locationtech.jts:jts-core:1.18.1'
+
+
     //테스트 환경
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

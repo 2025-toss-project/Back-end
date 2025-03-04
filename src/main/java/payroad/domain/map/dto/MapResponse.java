@@ -1,5 +1,6 @@
 package payroad.domain.map.dto;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,10 +12,33 @@ public abstract class MapResponse {
     @NoArgsConstructor
     @Getter
     @Builder
-    public static class MapDetailInfo{
+    public static class MapDetailInfoDTO {
+
         private Long id;
         private String category;
         private String details;
         private String locationName;
+        private Double lat;
+        private Double lng;
+        private int price;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Builder
+    public static class MapInfoListDTO {
+
+        private String category;
+        private List<MapDetailInfoDTO> mapInfoDTOList;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Builder
+    public static class CategoryMapInfoListDTO {
+
+        private List<MapInfoListDTO> mapInfoListDTOList;
     }
 }

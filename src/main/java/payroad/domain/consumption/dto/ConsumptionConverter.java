@@ -3,14 +3,33 @@ package payroad.domain.consumption.dto;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import payroad.domain.category.Category;
 import payroad.domain.consumption.Consumption;
 import payroad.domain.consumption.dto.ConsumptionResponse.ConsumptionInfoByDateDTO;
 import payroad.domain.consumption.dto.ConsumptionResponse.ConsumptionInfoDTO;
 import payroad.domain.consumption.dto.ConsumptionResponse.ConsumptionInfoDTOList;
+import payroad.domain.map.MapEntity;
+import payroad.domain.member.Member;
 
 public abstract class ConsumptionConverter {
 
-    public static ConsumptionResponse.ConsumptionInfoDTOList toComsumptionInfoDTOList(
+    public static Consumption toConsumption(
+        Member member,
+        MapEntity mapEntity,
+        Category category,
+        ConsumptionRequest.ConsumptionCreateDTO consumptionCreateDTO
+    ) {
+        return Consumption.builder()
+            .price(consumptionCreateDTO.getPrice())
+            .details(consumptionCreateDTO.getDetail())
+            .category(category)
+            .date(consumptionCreateDTO.getDate())
+            .member(member)
+            .mapEntity(mapEntity)
+            .build();
+    }
+
+    public static ConsumptionInfoDTOList toComsumptionInfoDTOList(
         List<Consumption> consumptionList
     ) {
         int totalPrice = consumptionList.stream()
@@ -30,8 +49,9 @@ public abstract class ConsumptionConverter {
                             .price(consumption.getPrice())
                             .category(consumption.getCategory().getName()) // 카테고리 이름
                             .details(consumption.getDetails())
-                            .point(consumption.getMap().getLocation())
-                            .point_name(consumption.getMap().getName()) // 포인트 이름
+                            .lat(consumption.getMapEntity().getLocation().getX()) //위도
+                            .lng(consumption.getMapEntity().getLocation().getY()) // 경도
+                            .point_name(consumption.getMapEntity().getName()) // 포인트 이름
                             .build(),
                         Collectors.toList()
                     )
@@ -56,8 +76,6 @@ public abstract class ConsumptionConverter {
             .totalPrice(totalPrice) // 전체 소비 총합
             .consumptionInfoByDateDTOS(consumptionInfoByDateDTOS) // 날짜별 소비 내역 리스트
             .build();
-
-
     }
 
 }

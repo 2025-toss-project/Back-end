@@ -15,7 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import payroad.domain.category.Category;
 import payroad.domain.common.BaseEntity;
-import payroad.domain.map.Map;
+import payroad.domain.map.MapEntity;
 import payroad.domain.member.Member;
 
 @Entity
@@ -44,17 +44,17 @@ public class Consumption extends BaseEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "map_id")
-    private Map map;
+    private MapEntity mapEntity;
 
     @Builder
     private Consumption(Integer price, String details, LocalDate date, Category category, Member member,
-        Map map) {
+        MapEntity mapEntity) {
         this.price = price;
         this.details = details;
         this.date = date;
         this.category = category;
         this.member = member;
-        this.map = map;
+        this.mapEntity = mapEntity;
     }
 
 }

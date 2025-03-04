@@ -6,22 +6,32 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import java.awt.Point;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+
+import org.locationtech.jts.geom.Point;
 import payroad.domain.common.BaseEntity;
 
 @Entity
 @NoArgsConstructor
 @Getter
-public class Map extends BaseEntity {
+public class MapEntity extends BaseEntity {
 
     @Id
     @Column(name = "map_id")
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    @Column(nullable = false, columnDefinition = "POINT")
     private Point location;
 
     private String name;
+
+    @Builder
+    public MapEntity(Point location, String name) {
+        this.location = location;
+        this.name = name;
+    }
 }
