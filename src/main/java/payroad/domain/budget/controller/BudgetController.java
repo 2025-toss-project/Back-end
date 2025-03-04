@@ -16,6 +16,7 @@ import payroad.domain.budget.service.BudgetService;
 import payroad.domain.consumption.dto.ConsumptionResponse;
 import payroad.domain.member.Member;
 import payroad.global.response.ApiResponse;
+import payroad.global.security.annotation.LoginMember;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class BudgetController {
     )
     @GetMapping
     public ApiResponse<BudgetResponse.BudgetInfoListDTO> getBudget(
-        Member member
+        @LoginMember Member member
     ) {
         BudgetInfoListDTO budgetInfoList = budgetService.getBudgetInfoList(member);
         return ApiResponse.onSuccess(budgetInfoList);
@@ -44,7 +45,7 @@ public class BudgetController {
     )
     @PostMapping("/create")
     public ApiResponse<BudgetResponse.BudgetInfoListDTO> createBudget(
-        Member member,
+        @LoginMember Member member,
         @RequestBody BudgetRequest.BudgetCreateListDTO budgetCreateListDTO
     ) {
         BudgetInfoListDTO budgetInfo = budgetService.createBudgetInfo(member, budgetCreateListDTO);
@@ -59,7 +60,7 @@ public class BudgetController {
     )
     @PostMapping("/update")
     public ApiResponse<BudgetResponse.BudgetInfoListDTO> updateBudget(
-        Member member,
+        @LoginMember Member member,
         @RequestBody BudgetRequest.BudgetUpdateListDTO budgetUpdateListDTO
     ) {
         BudgetInfoListDTO budgetInfoListDTO = budgetService.updateBudgetInfo(member,

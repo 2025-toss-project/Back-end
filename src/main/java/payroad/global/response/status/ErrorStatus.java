@@ -29,7 +29,30 @@ public enum ErrorStatus {
 
 
     // 지출 내용 관련 예외코드
-    CONSUMPTION_NOT_FIND(HttpStatus.BAD_REQUEST,"CONSUMPTION400","해당 지출내역이 없습니다.")
+    CONSUMPTION_NOT_FIND(HttpStatus.BAD_REQUEST,"CONSUMPTION400","해당 지출내역이 없습니다."),
+
+
+    /*
+     * member
+     */
+    MEMBER_NOT_FOUND_BY_MEMBER_ID(HttpStatus.BAD_REQUEST, "MEMBER4000",
+        "해당 id를 가진 회원이 존재하지 않습니다."),
+    MEMBER_NOT_FOUND_BY_EMAIL(HttpStatus.BAD_REQUEST, "MEMBER4001",
+        "해당 email을 가진 회원이 존재하지 않습니다."),
+    MEMBER_DUPLICATE_BY_EMAIL(HttpStatus.BAD_REQUEST, "MEMBER4002",
+        "이미 가입된 email입니다. "),
+    MEMBER_INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "MEMBER4003",
+        "잘못된 비밀번호 입니다. "),    /*,
+
+     /* login용 token 관련 예외 코드*/
+    INVALID_TOKEN(HttpStatus.BAD_REQUEST, "JWT4000",
+        "유효하지 않은 토큰입니다."),
+    REFRESH_TOKEN_NOT_FOUND(HttpStatus.BAD_REQUEST, "JWT4001",
+        "해당 refresh token이 존재하지 않습니다."),
+    TOKEN_IS_EXPIRED(HttpStatus.BAD_REQUEST, "JWT4002",
+        "만료된 토큰입니다."),
+    AUTHENTICATION_TYPE_IS_NOT_BEARER(HttpStatus.BAD_REQUEST, "JWT4003",
+        "잘못된 토큰 타입입니다.")
 
 
     ;

@@ -17,6 +17,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @RequiredArgsConstructor
 @EnableRedisRepositories(basePackages = {
     "payroad.global.verification.repository",
+    "payroad.global.security.repository"
 })
 public class RedisConfig {
     private final SSHConfig initializer;

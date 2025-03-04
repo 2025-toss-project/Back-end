@@ -14,6 +14,7 @@ import payroad.domain.map.dto.MapResponse.MapDetailInfoDTO;
 import payroad.domain.map.service.MapService;
 import payroad.domain.member.Member;
 import payroad.global.response.ApiResponse;
+import payroad.global.security.annotation.LoginMember;
 
 @RestController
 @RequiredArgsConstructor
@@ -43,7 +44,7 @@ public class MapController {
     )
     @GetMapping("/all")
     public ApiResponse<MapResponse.CategoryMapInfoListDTO> getMapInfo(
-        Member member,
+        @LoginMember Member member,
         @RequestParam Double lan,
         @RequestParam Double lon,
         @RequestParam Double radius

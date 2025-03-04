@@ -19,6 +19,7 @@ import payroad.domain.consumption.service.ConsumptionService;
 import payroad.domain.map.dto.MapResponse;
 import payroad.domain.member.Member;
 import payroad.global.response.ApiResponse;
+import payroad.global.security.annotation.LoginMember;
 
 @RestController
 @RequestMapping("/consumption")
@@ -35,7 +36,7 @@ public class ConsumptionController {
     )
     @GetMapping
     public ApiResponse<ConsumptionResponse.ConsumptionInfoDTOList> getConsumptionInfo(
-        Member member,
+        @LoginMember Member member,
         @RequestParam String Category,
         @RequestParam int startMonth,
         @RequestParam int startDay,
@@ -56,7 +57,7 @@ public class ConsumptionController {
     )
     @PostMapping("/create")
     public ApiResponse<ConsumptionResponse.ConsumptionInfoDTOList> createConsumption(
-        Member member,
+        @LoginMember Member member,
         @RequestBody ConsumptionRequest.ConsumptionCreateDTO consumptionCreateDTO
     ) {
         Category byName = categoryService.findByName(consumptionCreateDTO.getCategory());
