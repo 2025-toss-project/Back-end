@@ -34,7 +34,7 @@ public class MapService {
         Double lng,
         Double radius
     ) {
-        String point = "POINT(" + lng + " " + lat + ")";
+        String point = "POINT(" + lat + " " + lng + ")";
         List<Consumption> consumptions = consumptionRepository.
             findConsumptionsByMemberAndRadius(member.getId(), point, radius);
 

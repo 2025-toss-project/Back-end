@@ -2,6 +2,9 @@ package payroad.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,11 +41,15 @@ public class MemberService {
 
     @Transactional
     public MemberResponse.JoinResponse join(MemberRequest.JoinDTO request) {
-        Optional.of(request.getEmail()) //해당매일이 존재하는 경우 멤버 중복 예외 처리
+        Optional.of(request.getEmail()) //해당 매일이 존재하는 경우 멤버 중복 예외 처리
             .filter(email -> !memberRepository.existsByEmail(email))
             .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_DUPLICATE_BY_EMAIL));
 
-        Member newMember = memberConverter.toEntity(request);
+        GeometryFactory geometryFactory = new GeometryFactory();
+        Point point = geometryFactory.createPoint(new Coordinate(request.getLat(),request.getLng()));
+        point.setSRID(4326); // SRID 설정
+
+        Member newMember = memberConverter.toEntity(request,point);
         newMember.setPassword(bCryptPasswordEncoder.encode(request.getPassword())); // 비밀번호는 인코딩해서 넣음
         Member member = memberRepository.save(newMember);
 
@@ -60,7 +67,6 @@ public class MemberService {
             () -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND_BY_EMAIL)
         );
     }
-
 
     @Transactional
     public MemberResponse.JoinResponse changePassword(Member member, MemberRequest.ChangePasswordDTO request) {

@@ -88,6 +88,7 @@ public class SecurityConfig {
                     "/swagger-ui/**",
                     "/swagger-resources/**",
                     "/v3/api-docs/**").permitAll()
+                .anyRequest().authenticated()
             )
 
             //session 설정

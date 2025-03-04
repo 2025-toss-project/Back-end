@@ -1,6 +1,7 @@
 package payroad.domain.member.dto;
 
 import java.util.List;
+import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Component;
 import payroad.domain.member.Gender;
 import payroad.domain.member.Member;
@@ -9,11 +10,12 @@ import payroad.domain.member.Type;
 @Component
 public class MemberConverter {
 
-    public Member toEntity(MemberRequest.JoinDTO request) {
+    public Member toEntity(MemberRequest.JoinDTO request, Point point) {
         return Member.builder()
             .email(request.getEmail())
             .nickname(request.getNickName())
             .gender(Gender.valueOf(request.getGender()))
+            .myLocation(point)
             .type(Type.valueOf(request.getType())) //todo : 내 집 위치도 찍어줘야함
             .build();
     }

@@ -40,8 +40,8 @@ public interface ConsumptionRepository extends JpaRepository<Consumption, Long> 
     List<Consumption> findByMemberId(@Param("memberId") Long memberId);
 
 
-    @Query(value = "SELECT * FROM consumption c " +
-        "JOIN map m ON c.map_id = m.map_id " +
+    @Query(value = "SELECT c.* FROM consumption c " +
+        "JOIN map_entity m ON c.map_id = m.map_id " +
         "WHERE c.member_id = :memberId " +
         "AND ST_Distance_Sphere(m.location, ST_GeomFromText(:point, 4326)) <= :radius * 1000",
         nativeQuery = true)

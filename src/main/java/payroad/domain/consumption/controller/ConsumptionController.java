@@ -37,7 +37,7 @@ public class ConsumptionController {
     @GetMapping
     public ApiResponse<ConsumptionResponse.ConsumptionInfoDTOList> getConsumptionInfo(
         @LoginMember Member member,
-        @RequestParam String Category,
+        @RequestParam String category,
         @RequestParam int startMonth,
         @RequestParam int startDay,
         @RequestParam int endMonth,
@@ -60,9 +60,21 @@ public class ConsumptionController {
         @LoginMember Member member,
         @RequestBody ConsumptionRequest.ConsumptionCreateDTO consumptionCreateDTO
     ) {
+        System.out.println(consumptionCreateDTO);
         Category byName = categoryService.findByName(consumptionCreateDTO.getCategory());
         ConsumptionInfoDTOList consumptionInfo = consumptionService.createConsumptionInfo(member,
             consumptionCreateDTO, byName);
         return ApiResponse.onSuccess(consumptionInfo);
+    }
+
+    @PostMapping("/update")
+    public ApiResponse<ConsumptionResponse.ConsumptionInfoDTOList> updateConsumption(
+        @LoginMember Member member,
+        @RequestBody ConsumptionRequest.ConsumptionUpdateDTO consumptionUpdateDTO
+    ) {
+        Category category = categoryService.findByName(consumptionUpdateDTO.getCategory());
+        ConsumptionInfoDTOList consumptionInfoDTOList = consumptionService.updateConsumptionInfo(
+            member, category, consumptionUpdateDTO);
+        return ApiResponse.onSuccess(consumptionInfoDTOList);
     }
 }

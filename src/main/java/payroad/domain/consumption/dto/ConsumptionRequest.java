@@ -21,4 +21,19 @@ public abstract class ConsumptionRequest {
         String locationName;
         LocalDate date;
     }
+
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    public static class ConsumptionUpdateDTO {
+
+        Long id;
+        int price;
+        String detail;
+        String category;
+        Double lat;// 위도
+        Double lng; // 경도
+        String locationName;
+        LocalDate date;
+    }
 }

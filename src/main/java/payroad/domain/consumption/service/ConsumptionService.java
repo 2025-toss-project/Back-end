@@ -3,7 +3,9 @@ package payroad.domain.consumption.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
@@ -13,6 +15,7 @@ import payroad.domain.category.Category;
 import payroad.domain.consumption.Consumption;
 import payroad.domain.consumption.dto.ConsumptionConverter;
 import payroad.domain.consumption.dto.ConsumptionRequest;
+import payroad.domain.consumption.dto.ConsumptionRequest.ConsumptionUpdateDTO;
 import payroad.domain.consumption.dto.ConsumptionResponse;
 import payroad.domain.consumption.dto.ConsumptionResponse.ConsumptionInfoDTOList;
 import payroad.domain.consumption.repository.ConsumptionRepository;
@@ -20,7 +23,10 @@ import payroad.domain.map.MapEntity;
 import payroad.domain.map.dto.MapConveter;
 import payroad.domain.map.repository.MapRepository;
 import payroad.domain.member.Member;
+import payroad.global.response.exception.GeneralException;
+import payroad.global.response.status.ErrorStatus;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -49,13 +55,45 @@ public class ConsumptionService {
         ConsumptionRequest.ConsumptionCreateDTO consumptionCreateDTO,
         Category category
     ) {
-        MapEntity mapEntityByPoint = findOrCreateMapEntity(consumptionCreateDTO);
+        MapEntity mapEntityByPoint = findOrCreateMapEntity(consumptionCreateDTO.getLat(),
+            consumptionCreateDTO.getLng(), consumptionCreateDTO.getLocationName());
 
+        log.info("MapEntity: {}", mapEntityByPoint);
         Consumption consumption = ConsumptionConverter.toConsumption(member, mapEntityByPoint,
             category,
             consumptionCreateDTO);
 
         consumptionRepository.save(consumption);
+
+        return getConsumptionInfoDTOList(member);
+    }
+
+    @Transactional
+    public ConsumptionResponse.ConsumptionInfoDTOList updateConsumptionInfo(
+        Member member,
+        Category category,
+        ConsumptionRequest.ConsumptionUpdateDTO consumptionUpdateDTO
+    ) {
+        Consumption exisitiongConsumption = consumptionRepository.findById(
+                consumptionUpdateDTO.getId())
+            .orElseThrow(() -> new GeneralException(ErrorStatus.CONSUMPTION_NOT_FIND));
+
+        MapEntity mapEntity = findOrCreateMapEntity(consumptionUpdateDTO.getLat(),
+            consumptionUpdateDTO.getLng(), consumptionUpdateDTO.getLocationName());
+
+        exisitiongConsumption = ConsumptionConverter.toUpdateConsumption(
+            category,
+            member,
+            mapEntity,
+            consumptionUpdateDTO
+        );
+
+        consumptionRepository.save(exisitiongConsumption);
+
+        return getConsumptionInfoDTOList(member);
+    }
+
+    private ConsumptionInfoDTOList getConsumptionInfoDTOList(Member member) {
 
         LocalDate today = LocalDate.now();             // 오늘 날짜
         LocalDate firstDayOfMonth = today.withDayOfMonth(1); // 이번 달의 1일
@@ -73,13 +111,14 @@ public class ConsumptionService {
     /**
      * 위도, 경도를 이용해 MapEntity를 찾거나 없으면 새로 저장하는 메서드
      */
-    private MapEntity findOrCreateMapEntity(ConsumptionRequest.ConsumptionCreateDTO dto) {
+    private MapEntity findOrCreateMapEntity(Double lat, Double lng, String locationName) {
         GeometryFactory geometryFactory = new GeometryFactory();
-        Point point = geometryFactory.createPoint(new Coordinate(dto.getLng(), dto.getLat()));
+        Point point = geometryFactory.createPoint(new Coordinate(lng, lat));
         point.setSRID(4326); // SRID 설정
-
-        return mapRepository.findMapByPoint(point.toText()) // WKT 형식
-            .orElseGet(() -> mapRepository.save(MapConveter.toMapEntity(point, dto.getLocationName())));
+        log.info(point.toText()+ " 잠시만 "+point.getX()+" "+point.getY());
+        String pointText = "POINT(" + lat + " " + lng + ")";
+        return mapRepository.findMapByPoint(pointText) // WKT 형식
+            .orElseGet(() -> mapRepository.save(MapConveter.toMapEntity(point, locationName)));
     }
 
 }

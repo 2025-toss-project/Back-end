@@ -29,6 +29,23 @@ public abstract class ConsumptionConverter {
             .build();
     }
 
+    public static Consumption toUpdateConsumption(
+        Category category,
+        Member member,
+        MapEntity mapEntity,
+        ConsumptionRequest.ConsumptionUpdateDTO consumptionUpdateDTO
+    ){
+        return Consumption.builder()
+            .id(consumptionUpdateDTO.getId())
+            .member(member)
+            .category(category)
+            .details(consumptionUpdateDTO.getDetail())
+            .date(consumptionUpdateDTO.getDate())
+            .price(consumptionUpdateDTO.getPrice())
+            .mapEntity(mapEntity)
+            .build();
+    }
+
     public static ConsumptionInfoDTOList toComsumptionInfoDTOList(
         List<Consumption> consumptionList
     ) {
@@ -49,8 +66,8 @@ public abstract class ConsumptionConverter {
                             .price(consumption.getPrice())
                             .category(consumption.getCategory().getName()) // 카테고리 이름
                             .details(consumption.getDetails())
-                            .lat(consumption.getMapEntity().getLocation().getX()) //위도
-                            .lng(consumption.getMapEntity().getLocation().getY()) // 경도
+                            .lat(consumption.getMapEntity().getLocation().getY()) //위도
+                            .lng(consumption.getMapEntity().getLocation().getX()) // 경도
                             .point_name(consumption.getMapEntity().getName()) // 포인트 이름
                             .build(),
                         Collectors.toList()

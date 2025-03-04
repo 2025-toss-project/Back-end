@@ -47,8 +47,10 @@ public class Consumption extends BaseEntity {
     private MapEntity mapEntity;
 
     @Builder
-    private Consumption(Integer price, String details, LocalDate date, Category category, Member member,
+    private Consumption(Long id, Integer price, String details, LocalDate date, Category category,
+        Member member,
         MapEntity mapEntity) {
+        this.id = id;
         this.price = price;
         this.details = details;
         this.date = date;

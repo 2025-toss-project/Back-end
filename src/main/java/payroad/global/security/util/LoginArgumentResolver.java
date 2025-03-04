@@ -34,6 +34,7 @@ public class LoginArgumentResolver implements HandlerMethodArgumentResolver {
         }
 
         String email = authentication.getName(); // JwtAuthFilter에서 설정한 email
+        System.out.println("email : " + email);
         return memberRepository.findByEmail(email)
             .orElseThrow(() -> new IllegalArgumentException("인증된 사용자를 찾을 수 없습니다."));
 

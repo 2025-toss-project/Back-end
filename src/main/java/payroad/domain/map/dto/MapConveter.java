@@ -30,8 +30,8 @@ public abstract class MapConveter {
             .category(consumption.getCategory().getName())  // Map의 카테고리
             .details(consumption.getDetails())  // Map의 세부 사항
             .locationName(consumption.getMapEntity().getName())  // Map의 위치 이름
-            .lat(consumption.getMapEntity().getLocation().getX())  // Map의 위도
-            .lng(consumption.getMapEntity().getLocation().getY())  // Map의 경도
+            .lat(consumption.getMapEntity().getLocation().getY())  // Map의 위도
+            .lng(consumption.getMapEntity().getLocation().getX())  // Map의 경도
             .price(consumption.getPrice())  // Consumption의 가격
             .build();
     }

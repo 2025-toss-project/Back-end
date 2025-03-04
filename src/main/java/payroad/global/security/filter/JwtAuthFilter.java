@@ -72,7 +72,8 @@ public class JwtAuthFilter extends OncePerRequestFilter { //http 요청마다 Jw
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         log.info(request.toString());
-
+        // 가져오는 이메일이 유효한지 확인
+        log.info(SecurityContextHolder.getContext().getAuthentication().getName());
         filterChain.doFilter(request, response);
     }
 

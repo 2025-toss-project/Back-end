@@ -45,12 +45,13 @@ public class Member extends BaseEntity {
     private Point myLocation;
 
     @Builder
-    public Member(String email, String nickname, String password, Gender gender, Type type) {
+    public Member(String email, String nickname, String password, Gender gender, Type type,Point myLocation) {
         this.email = email;
         this.nickname = nickname;
         this.password = password;
         this.gender = gender;
         this.type = type;
+        this.myLocation = myLocation;
     }
 
 }
