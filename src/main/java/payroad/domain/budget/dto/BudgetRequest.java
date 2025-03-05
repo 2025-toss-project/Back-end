@@ -25,7 +25,6 @@ public class BudgetRequest {
     @Getter
     public static class BudgetCreateListDTO {
 
-        int totalPrice;
         List<BudgetCreateDTO> budgetCreateDTOList;
     }
 

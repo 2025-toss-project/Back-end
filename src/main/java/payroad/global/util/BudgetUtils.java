@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class BudgetUtils {
 
     public static int calculateToPercentage(int price, int totalPrice) {
-        if(totalPrice <= 0) {
+        if (totalPrice <= 0) {
             return 0;
         }
         return price / totalPrice * 100;

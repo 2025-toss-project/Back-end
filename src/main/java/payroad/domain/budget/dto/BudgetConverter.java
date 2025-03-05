@@ -17,6 +17,7 @@ public abstract class BudgetConverter {
         Map<String, Integer> ConsumptionSumByCategory
     ) {
         List<BudgetResponse.BudgetInfoDTO> budgetInfoList = budgetList.stream()
+            .filter( budget -> !"전체".equals(budget.getCategory().getName()))
             .map(budget ->
                 BudgetInfoDTO.builder()
                     .id(budget.getId())
@@ -25,10 +26,13 @@ public abstract class BudgetConverter {
                     .spendPrice(
                         ConsumptionSumByCategory.getOrDefault(budget.getCategory().getName(), 0))
                     .percentage(BudgetUtils.calculateToPercentage(
-                        ConsumptionSumByCategory.getOrDefault(budget.getCategory().getName(), 0),budget.getPrice()))
+                        ConsumptionSumByCategory.getOrDefault(budget.getCategory().getName(), 0),
+                        budget.getPrice()))
                     .build()).collect(Collectors.toList());
 
-        int totalBudget = budgetList.stream().mapToInt(Budget::getPrice).sum();
+        int totalBudget = budgetList.stream()
+            .filter(budget -> "전체".equals(budget.getCategory().getName()))
+            .mapToInt(Budget::getPrice).sum();
         int totalSpend = ConsumptionSumByCategory.values().stream().mapToInt(Integer::intValue)
             .sum();
 
