@@ -114,9 +114,8 @@ public class ConsumptionService {
     private MapEntity findOrCreateMapEntity(Double lat, Double lng, String locationName) {
         GeometryFactory geometryFactory = new GeometryFactory();
         Point point = geometryFactory.createPoint(new Coordinate(lng, lat));
-        point.setSRID(4326); // SRID 설정
-        log.info(point.toText()+ " 잠시만 "+point.getX()+" "+point.getY());
-        String pointText = "POINT(" + lat + " " + lng + ")";
+        point.setSRID(4326); // SRID 설정;
+        String pointText = "POINT(" + lng + " " + lat + ")";
         return mapRepository.findMapByPoint(pointText) // WKT 형식
             .orElseGet(() -> mapRepository.save(MapConveter.toMapEntity(point, locationName)));
     }

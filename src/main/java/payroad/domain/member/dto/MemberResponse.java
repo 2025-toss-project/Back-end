@@ -23,9 +23,20 @@ public abstract class MemberResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class MemberInfo {
-        String name;
+        String nickname;
         String email;
-        Integer joinYear;
+        String type;
+        String ageGroup;
+        Home home;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Home {
+        Double lan;
+        Double lat;
     }
 
 }

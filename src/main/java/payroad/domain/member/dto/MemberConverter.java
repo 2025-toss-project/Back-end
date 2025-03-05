@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 import payroad.domain.member.AgeGroup;
 import payroad.domain.member.Member;
 import payroad.domain.member.Type;
+import payroad.domain.member.dto.MemberResponse.Home;
+import payroad.domain.member.dto.MemberResponse.MemberInfo;
 
 @Component
 public class MemberConverter {
@@ -27,18 +29,19 @@ public class MemberConverter {
             .build();
     }
 
-//    public MemberResponse.MemberInfo toMemberInfo(Member member, List<MemberMajor> memberMajorList) {
-//        List<MemberResponse.MajorInfo> majorList = memberMajorList.stream().map(
-//            this::toMajorInfo
-//        ).toList();
-//
-//        return MemberResponse.MemberInfo.builder()
-//            .name(member.getName())
-//            .email(member.getEmail())
-//            .joinYear(member.getJoinYear() % 100)
-//            .majorList(majorList)
-//            .build();
-//    }
+    public MemberResponse.MemberInfo toMemberInfo(Member member) {
+
+        return MemberInfo.builder()
+            .nickname(member.getNickname())
+            .email(member.getEmail())
+            .ageGroup(member.getAgeGroup().getLabel())
+            .home(Home.builder()
+                .lan(member.getMyLocation().getX())
+                .lat(member.getMyLocation().getY())
+                .build())
+            .type(member.getType().toString())
+            .build();
+    }
 
 //    public MemberResponse.MajorInfo toMajorInfo(MemberMajor memberMajor) {
 //        return MemberResponse.MajorInfo.builder()

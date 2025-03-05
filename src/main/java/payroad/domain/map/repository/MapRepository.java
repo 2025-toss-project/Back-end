@@ -9,7 +9,7 @@ import payroad.domain.map.MapEntity;
 public interface MapRepository extends JpaRepository<MapEntity, Long> {
 
     @Query(value = "SELECT * FROM map_entity " +
-        "WHERE ST_Equals(location, ST_GeomFromText(:point, 4326))",
+        "WHERE ST_Equals(location, ST_PointFromText(:point, 4326))",
         nativeQuery = true)
     Optional<MapEntity> findMapByPoint(@Param("point") String point);
 

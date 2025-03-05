@@ -46,7 +46,7 @@ public class MemberService {
             .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_DUPLICATE_BY_EMAIL));
 
         GeometryFactory geometryFactory = new GeometryFactory();
-        Point point = geometryFactory.createPoint(new Coordinate(request.getHome().getLat(),request.getHome().getLng()));
+        Point point = geometryFactory.createPoint(new Coordinate(request.getHome().getLng(),request.getHome().getLat()));
         point.setSRID(4326); // SRID 설정
 
         Member newMember = memberConverter.toEntity(request,point);
@@ -54,6 +54,10 @@ public class MemberService {
         Member member = memberRepository.save(newMember);
 
         return memberConverter.toJoinResponse(member);
+    }
+
+    public MemberResponse.MemberInfo getMemberInfo(Member member){
+        return memberConverter.toMemberInfo(member);
     }
 
     public Member findMember(Long memberId) {
