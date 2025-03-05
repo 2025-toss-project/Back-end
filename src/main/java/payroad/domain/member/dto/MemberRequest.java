@@ -23,9 +23,6 @@ public abstract class MemberRequest {
         private String nickName;
 
         @NotNull
-        private String gender;
-
-        @NotNull
         private String type;
 
         @NotNull

@@ -14,4 +14,22 @@ public enum AgeGroup {
     private final String label;
     private final int age;
 
+    public static AgeGroup fromString(String label) {
+        for (AgeGroup ageGroup : AgeGroup.values()) {
+            if (ageGroup.getLabel().equalsIgnoreCase(label)) {
+                return ageGroup;
+            }
+        }
+        throw new IllegalArgumentException("Unexpected value: " + label);
+    }
+
+    public static AgeGroup fromInt(Integer age) {
+        for (AgeGroup ageGroup : AgeGroup.values()) {
+            if (ageGroup.getAge()==age) {
+                return ageGroup;
+            }
+        }
+        throw new IllegalArgumentException("Unexpected value: " + age);
+    }
+
 }

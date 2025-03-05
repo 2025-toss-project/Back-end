@@ -14,7 +14,7 @@ public class MemberConverter {
         return Member.builder()
             .email(request.getEmail())
             .nickname(request.getNickName())
-            .ageGroup(AgeGroup.valueOf(request.getAgeGroup()))
+            .ageGroup(AgeGroup.fromString(request.getAgeGroup()))
             .myLocation(point)
             .type(Type.valueOf(request.getType())) //todo : 내 집 위치도 찍어줘야함
             .build();
