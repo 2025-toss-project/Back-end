@@ -25,8 +25,7 @@ public abstract class BudgetConverter {
                     .spendPrice(
                         ConsumptionSumByCategory.getOrDefault(budget.getCategory().getName(), 0))
                     .percentage(BudgetUtils.calculateToPercentage(
-                        budget.getPrice(),
-                        ConsumptionSumByCategory.getOrDefault(budget.getCategory().getName(), 0)))
+                        ConsumptionSumByCategory.getOrDefault(budget.getCategory().getName(), 0),budget.getPrice()))
                     .build()).collect(Collectors.toList());
 
         int totalBudget = budgetList.stream().mapToInt(Budget::getPrice).sum();

@@ -3,7 +3,7 @@ package payroad.domain.member.dto;
 import java.util.List;
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Component;
-import payroad.domain.member.Gender;
+import payroad.domain.member.AgeGroup;
 import payroad.domain.member.Member;
 import payroad.domain.member.Type;
 
@@ -14,7 +14,7 @@ public class MemberConverter {
         return Member.builder()
             .email(request.getEmail())
             .nickname(request.getNickName())
-            .gender(Gender.valueOf(request.getGender()))
+            .ageGroup(AgeGroup.valueOf(request.getAgeGroup()))
             .myLocation(point)
             .type(Type.valueOf(request.getType())) //todo : 내 집 위치도 찍어줘야함
             .build();

@@ -22,6 +22,7 @@ public enum ErrorStatus {
     // 예산금액 관리 예외 코드
     BUDGET_EMPTY(HttpStatus.BAD_REQUEST,"BUDGET400","예산금액 설정이 필요합니다."),
     BUDGET_NOT_FIND(HttpStatus.BAD_REQUEST,"BUDGET401","해당 예산 금액이 없습니다."),
+    BUDGET_ERROR(HttpStatus.BAD_REQUEST,"BUDGET402", "예산금액 저장에 실패했습니다."),
 
 
     // 카테고리 관련 예외 코드

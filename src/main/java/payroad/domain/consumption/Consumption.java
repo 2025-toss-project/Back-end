@@ -59,4 +59,9 @@ public class Consumption extends BaseEntity {
         this.mapEntity = mapEntity;
     }
 
+    @Override
+    public String toString() {
+        return "Consumption [id=" + id + ", price=" + price + ", details=" + details + ", date=" + date;
+    }
+
 }

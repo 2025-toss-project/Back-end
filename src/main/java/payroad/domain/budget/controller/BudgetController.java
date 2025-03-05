@@ -16,6 +16,8 @@ import payroad.domain.budget.service.BudgetService;
 import payroad.domain.consumption.dto.ConsumptionResponse;
 import payroad.domain.member.Member;
 import payroad.global.response.ApiResponse;
+import payroad.global.response.exception.GeneralException;
+import payroad.global.response.status.ErrorStatus;
 import payroad.global.security.annotation.LoginMember;
 
 @RestController
@@ -48,8 +50,12 @@ public class BudgetController {
         @LoginMember Member member,
         @RequestBody BudgetRequest.BudgetCreateListDTO budgetCreateListDTO
     ) {
-        BudgetInfoListDTO budgetInfo = budgetService.createBudgetInfo(member, budgetCreateListDTO);
-        return ApiResponse.onSuccess(budgetInfo);
+        Boolean budgetInfo = budgetService.createBudgetInfo(member, budgetCreateListDTO);
+        if(!budgetInfo){
+            throw new GeneralException(ErrorStatus.BUDGET_ERROR);
+        }
+        BudgetInfoListDTO budgetInfoList = budgetService.getBudgetInfoList(member);
+        return ApiResponse.onSuccess(budgetInfoList);
 
     }
 
@@ -63,9 +69,12 @@ public class BudgetController {
         @LoginMember Member member,
         @RequestBody BudgetRequest.BudgetUpdateListDTO budgetUpdateListDTO
     ) {
-        BudgetInfoListDTO budgetInfoListDTO = budgetService.updateBudgetInfo(member,
-            budgetUpdateListDTO);
-        return ApiResponse.onSuccess(budgetInfoListDTO);
+        Boolean isSuccess = budgetService.updateBudgetInfo(member, budgetUpdateListDTO);
+        if(!isSuccess){
+            throw new GeneralException(ErrorStatus.BUDGET_ERROR);
+        }
+        BudgetInfoListDTO budgetInfoList = budgetService.getBudgetInfoList(member);
+        return ApiResponse.onSuccess(budgetInfoList);
     }
 
 

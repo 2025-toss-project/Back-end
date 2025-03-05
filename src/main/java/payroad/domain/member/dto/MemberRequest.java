@@ -29,11 +29,24 @@ public abstract class MemberRequest {
         private String type;
 
         @NotNull
+        private Home home;
+
+        @NotNull
+        private String ageGroup;
+
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Home{
+        @NotNull
         private Double lat;
 
         @NotNull
         private Double lng;
     }
+
 
     @Getter
     @NoArgsConstructor

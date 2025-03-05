@@ -37,19 +37,19 @@ public class Member extends BaseEntity {
     @Setter
     private String password;
 
-    private Gender gender;
-
     private Type type;
+
+    private AgeGroup ageGroup;
 
     @Column(nullable = false, columnDefinition = "POINT")
     private Point myLocation;
 
     @Builder
-    public Member(String email, String nickname, String password, Gender gender, Type type,Point myLocation) {
+    public Member(String email, String nickname, String password, AgeGroup ageGroup, Type type,Point myLocation) {
         this.email = email;
         this.nickname = nickname;
         this.password = password;
-        this.gender = gender;
+        this.ageGroup = ageGroup;
         this.type = type;
         this.myLocation = myLocation;
     }

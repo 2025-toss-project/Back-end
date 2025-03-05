@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import payroad.domain.budget.Budget;
@@ -24,6 +25,7 @@ import payroad.global.response.status.ErrorStatus;
 import payroad.global.util.BudgetUtils;
 import payroad.global.util.CommonUtils;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -34,7 +36,7 @@ public class BudgetService {
     private final CategoryRepository categoryRepository;
 
     public BudgetResponse.BudgetInfoListDTO getBudgetInfoList(Member member) {
-        List<Budget> budgets = budgetRepository.findByMemberId(member)
+        List<Budget> budgets = budgetRepository.findByMember(member)
             .orElseThrow(() -> new GeneralException(ErrorStatus.BUDGET_EMPTY));
 
         List<Object[]> consumptionByCategory = consumptionRepository.findConsumptionByMemberAndMonth(
@@ -46,7 +48,7 @@ public class BudgetService {
     }
 
     @Transactional
-    public BudgetResponse.BudgetInfoListDTO createBudgetInfo(
+    public Boolean createBudgetInfo(
         Member member,
         BudgetRequest.BudgetCreateListDTO budgetCreateListDTO
     ) {
@@ -60,11 +62,11 @@ public class BudgetService {
 
         budgetRepository.saveAll(budgetList);
 
-        return getBudgetInfoList(member);
+        return true;
     }
 
     @Transactional
-    public BudgetResponse.BudgetInfoListDTO updateBudgetInfo(
+    public Boolean updateBudgetInfo(
         Member member,
         BudgetRequest.BudgetUpdateListDTO budgetUpdateListDTO
     ) {
@@ -75,6 +77,6 @@ public class BudgetService {
             budget.setPrice(dto.getPrice());
         });
 
-        return getBudgetInfoList(member);
+        return true;
     }
 }
