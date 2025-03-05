@@ -8,8 +8,11 @@ import java.util.stream.Collectors;
 
 public class BudgetUtils {
 
-    public static int calculateToPercentage(int totalPrice, int price) {
-        return totalPrice / price * 100;
+    public static int calculateToPercentage(int price, int totalPrice) {
+        if(totalPrice <= 0) {
+            return 0;
+        }
+        return price / totalPrice * 100;
     }
 
     public static Map<String, Integer> getSumByCategory(
