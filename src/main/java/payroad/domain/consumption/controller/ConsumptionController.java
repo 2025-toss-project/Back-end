@@ -3,7 +3,9 @@ package payroad.domain.consumption.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,15 +40,12 @@ public class ConsumptionController {
     public ApiResponse<ConsumptionResponse.ConsumptionInfoDTOList> getConsumptionInfo(
         @LoginMember Member member,
         @RequestParam String category,
-        @RequestParam int startMonth,
-        @RequestParam int startDay,
-        @RequestParam int endMonth,
-        @RequestParam int endDay
+        @RequestParam LocalDate startDate,
+        @RequestParam LocalDate endDate
     ) {
         // todo: category 별로 받아서 처리하는 로직을 추가해야함
         ConsumptionInfoDTOList consumptionInfo = consumptionService.getConsumptionInfo(member,
-            startMonth, startDay, endMonth, endDay);
-
+            startDate, endDate);
         return ApiResponse.onSuccess(consumptionInfo);
     }
 
@@ -67,6 +66,11 @@ public class ConsumptionController {
         return ApiResponse.onSuccess(consumptionInfo);
     }
 
+    @Operation(summary = "내 지출내역 수정 api", description = "내 지출내역을 수정하는 api입니다.<br>**반환 형식(리스트)**<br>")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+        responseCode = "200", description = "성공",
+        content = @Content(schema = @Schema(implementation = ConsumptionResponse.ConsumptionInfoDTOList.class))
+    )
     @PostMapping("/update")
     public ApiResponse<ConsumptionResponse.ConsumptionInfoDTOList> updateConsumption(
         @LoginMember Member member,
@@ -75,6 +79,22 @@ public class ConsumptionController {
         Category category = categoryService.findByName(consumptionUpdateDTO.getCategory());
         ConsumptionInfoDTOList consumptionInfoDTOList = consumptionService.updateConsumptionInfo(
             member, category, consumptionUpdateDTO);
+        return ApiResponse.onSuccess(consumptionInfoDTOList);
+    }
+
+    @Operation(summary = "내 지출내역 삭제 api", description = "내 지출내역을 삭제하는 api입니다.<br>**반환 형식(리스트)**<br>")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+        responseCode = "200", description = "성공",
+        content = @Content(schema = @Schema(implementation = ConsumptionResponse.ConsumptionInfoDTOList.class))
+    )
+    @DeleteMapping("/delete")
+    public ApiResponse<ConsumptionResponse.ConsumptionInfoDTOList> deleteConsumption(
+        @LoginMember Member member,
+        @RequestParam Long consumptionId
+    ){
+        ConsumptionInfoDTOList consumptionInfoDTOList = consumptionService.deleteConsumptionInfo(
+            member, consumptionId);
+
         return ApiResponse.onSuccess(consumptionInfoDTOList);
     }
 }

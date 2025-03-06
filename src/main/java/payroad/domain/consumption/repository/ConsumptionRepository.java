@@ -1,5 +1,6 @@
 package payroad.domain.consumption.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,6 +20,15 @@ public interface ConsumptionRepository extends JpaRepository<Consumption, Long> 
         @Param("member") Member member,
         @Param("month") int month,
         @Param("year") int year
+    );
+
+    // 시작과 끝 일자에 대해서 consumption의 값을 불러오는 쿼리를 날린다.
+    @Query("SELECT c FROM Consumption c WHERE c.member = :member " +
+        "AND c.date BETWEEN :startDate AND :endDate " )
+    List<Consumption> findByMemberAndDateRange(
+        @Param("member") Member member,
+        @Param("startDate") LocalDate startDate,
+        @Param("endDate") LocalDate endDate
     );
 
     // 시작과 끝 일자에 대해서 consumption의 값을 불러오는 쿼리를 날린다.

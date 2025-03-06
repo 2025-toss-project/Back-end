@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import payroad.domain.category.Category;
@@ -37,13 +38,11 @@ public class ConsumptionService {
 
     public ConsumptionResponse.ConsumptionInfoDTOList getConsumptionInfo(
         Member member,
-        int startMonth,
-        int startDay,
-        int endMonth,
-        int endDay
+        LocalDate startDate,
+        LocalDate endDate
     ) {
         List<Consumption> byMemberAndDateRange = consumptionRepository.findByMemberAndDateRange(
-            member, startMonth, startDay, endMonth, endDay);
+            member, startDate, endDate);
         ConsumptionInfoDTOList comsumptionInfoDTOList = ConsumptionConverter.toComsumptionInfoDTOList(
             byMemberAndDateRange);
         return comsumptionInfoDTOList;
@@ -93,6 +92,14 @@ public class ConsumptionService {
         return getConsumptionInfoDTOList(member);
     }
 
+    @Transactional
+    public ConsumptionResponse.ConsumptionInfoDTOList deleteConsumptionInfo(Member member,Long consumptionId) {
+        consumptionRepository.findById(consumptionId)
+            .orElseThrow(() -> new GeneralException(ErrorStatus.CONSUMPTION_NOT_FIND));
+        consumptionRepository.deleteById(consumptionId);
+        return getConsumptionInfoDTOList(member);
+    }
+
     private ConsumptionInfoDTOList getConsumptionInfoDTOList(Member member) {
 
         LocalDate today = LocalDate.now();             // 오늘 날짜
@@ -115,8 +122,9 @@ public class ConsumptionService {
         GeometryFactory geometryFactory = new GeometryFactory();
         Point point = geometryFactory.createPoint(new Coordinate(lng, lat));
         point.setSRID(4326); // SRID 설정;
-        String pointText = "POINT(" + lng + " " + lat + ")";
-        return mapRepository.findMapByPoint(pointText) // WKT 형식
+        String pointText = "POINT(" + lat + " " + lng + ")";
+        log.info("pointText: " + pointText);
+        return mapRepository.findMapByPoint(pointText)
             .orElseGet(() -> mapRepository.save(MapConveter.toMapEntity(point, locationName)));
     }
 

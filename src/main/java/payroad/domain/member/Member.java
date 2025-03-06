@@ -41,7 +41,7 @@ public class Member extends BaseEntity {
 
     private AgeGroup ageGroup;
 
-    @Column(nullable = false, columnDefinition = "POINT")
+    @Column(nullable = false, columnDefinition = "POINT SRID 4326")
     private Point myLocation;
 
     @Builder

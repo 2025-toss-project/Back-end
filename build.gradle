@@ -38,7 +38,6 @@ dependencies {
     //email 인증
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 
-    //redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis:3.3.4'
 
     //rds
@@ -55,7 +54,6 @@ dependencies {
 
     //지도 의존성
     implementation 'org.hibernate:hibernate-spatial:6.5.1.Final'
-    implementation 'org.locationtech.jts:jts-core:1.18.1'
 
     //Spring security
     implementation 'org.springframework.boot:spring-boot-starter-security'

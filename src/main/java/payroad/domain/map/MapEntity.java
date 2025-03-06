@@ -24,7 +24,7 @@ public class MapEntity extends BaseEntity {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "POINT")
+    @Column(nullable = false, columnDefinition = "POINT SRID 4326")
     private Point location;
 
     private String name;
