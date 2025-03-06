@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import payroad.domain.category.Category;
 
 public abstract class MapResponse {
 
@@ -41,4 +42,5 @@ public abstract class MapResponse {
 
         private List<MapInfoListDTO> mapInfoListDTOList;
     }
+
 }

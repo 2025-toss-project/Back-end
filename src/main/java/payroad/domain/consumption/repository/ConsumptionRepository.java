@@ -24,7 +24,7 @@ public interface ConsumptionRepository extends JpaRepository<Consumption, Long> 
 
     // 시작과 끝 일자에 대해서 consumption의 값을 불러오는 쿼리를 날린다.
     @Query("SELECT c FROM Consumption c WHERE c.member = :member " +
-        "AND c.date BETWEEN :startDate AND :endDate " )
+        "AND c.date BETWEEN :startDate AND :endDate ")
     List<Consumption> findByMemberAndDateRange(
         @Param("member") Member member,
         @Param("startDate") LocalDate startDate,
@@ -60,4 +60,15 @@ public interface ConsumptionRepository extends JpaRepository<Consumption, Long> 
         @Param("point") String point,  // "POINT(lng lat)" 형식의 문자열
         @Param("radius") double radius);
 
+    // 자신을 제외 다른 사람들의 지출내역을 가져 오는 쿼리
+    @Query(value = "SELECT * FROM consumption c "
+        + "WHERE c.member_id IN ("
+        + "    SELECT DISTINCT m.id FROM member m "
+        + "    WHERE m.id != :memberId AND m.type = :type "
+        + "    ORDER BY RAND() LIMIT 10"
+        + ")"
+        , nativeQuery = true)
+    List<Consumption> findByNotMember(
+        @Param("memberId") Long memberId,
+        @Param("type") int type);
 }
