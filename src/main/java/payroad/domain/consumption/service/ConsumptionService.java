@@ -48,6 +48,17 @@ public class ConsumptionService {
         return comsumptionInfoDTOList;
     }
 
+    public ConsumptionResponse.CalenderInfoListDTO getCalenderInfo(
+        Member member,
+        LocalDate currentDate
+    ){
+
+        log.info(currentDate.withDayOfMonth(currentDate.lengthOfMonth()).toString());
+        List<Consumption> consumptions = consumptionRepository.findByMemberAndDateRange(
+            member, currentDate.withDayOfMonth(1), currentDate.withDayOfMonth(currentDate.lengthOfMonth()));
+        return ConsumptionConverter.toCalenderInfoListDTO(consumptions);
+    }
+
     @Transactional
     public ConsumptionResponse.ConsumptionInfoDTOList createConsumptionInfo(
         Member member,
@@ -104,6 +115,8 @@ public class ConsumptionService {
 
         LocalDate today = LocalDate.now();             // 오늘 날짜
         LocalDate firstDayOfMonth = today.withDayOfMonth(1); // 이번 달의 1일
+
+        log.info("firstDayOfMonth: {}", today);
 
         List<Consumption> byMemberAndDateRange = consumptionRepository.findByMemberAndDateRange(
             member, firstDayOfMonth.getMonthValue(),  // startMonth

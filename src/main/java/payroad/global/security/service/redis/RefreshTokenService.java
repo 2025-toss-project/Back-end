@@ -43,6 +43,7 @@ public class RefreshTokenService {
         return refreshTokenRepository.findByRefreshToken(token).isPresent();
     }
 
+    @Transactional
     public Map<String, String> refreshAccessToken(String token) {
         Long memberId = jwtUtil.getMemberId(token);
         String email = jwtUtil.getEmail(token);

@@ -16,6 +16,7 @@ import payroad.domain.category.Category;
 import payroad.domain.category.service.CategoryService;
 import payroad.domain.consumption.dto.ConsumptionRequest;
 import payroad.domain.consumption.dto.ConsumptionResponse;
+import payroad.domain.consumption.dto.ConsumptionResponse.CalenderInfoListDTO;
 import payroad.domain.consumption.dto.ConsumptionResponse.ConsumptionInfoDTOList;
 import payroad.domain.consumption.service.ConsumptionService;
 import payroad.domain.map.dto.MapResponse;
@@ -48,6 +49,22 @@ public class ConsumptionController {
             startDate, endDate);
         return ApiResponse.onSuccess(consumptionInfo);
     }
+
+    @Operation(summary = "캘린더 지출내역 조회 api", description = "내 지출내역을 카테고리와 시작 끝 날짜를 입력을 받고 조회해주는 api입니다.<br>**반환 형식(리스트)**<br>")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+        responseCode = "200", description = "성공",
+        content = @Content(schema = @Schema(implementation = ConsumptionResponse.ConsumptionInfoDTOList.class))
+    )
+    @GetMapping("/calender")
+    public ApiResponse<ConsumptionResponse.CalenderInfoListDTO> getCalenderInfo(
+        @LoginMember Member member,
+        @RequestParam String category,
+        @RequestParam LocalDate currentDate) {
+        // todo: category 별로 받아서 처리하는 로직을 추가해야함
+        CalenderInfoListDTO calenderInfo = consumptionService.getCalenderInfo(member, currentDate);
+        return ApiResponse.onSuccess(calenderInfo);
+    }
+
 
     @Operation(summary = "내 지출내역 추가 api", description = "내 지출내역을 만드는 api입니다.<br>**반환 형식(리스트)**<br>")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(

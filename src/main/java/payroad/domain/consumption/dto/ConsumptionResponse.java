@@ -29,8 +29,9 @@ public abstract class ConsumptionResponse {
     @Getter
     @Builder
     public static class ConsumptionInfoByDateDTO {
-        private int Month;
-        private int Day;
+        private int year;
+        private int month;
+        private int day;
         private int datePrice;
         private List<ConsumptionInfoDTO> consumptionInfoList;
     }
@@ -42,5 +43,25 @@ public abstract class ConsumptionResponse {
     public static class ConsumptionInfoDTOList {
         private int totalPrice;
         private List<ConsumptionInfoByDateDTO> consumptionInfoByDateDTOS;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Builder
+    public static class CalenderInfoDTO{
+        private int year;
+        private int month;
+        private int day;
+        private int datePrice;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Builder
+    public static class CalenderInfoListDTO{
+        private int totalPrice;
+        List<CalenderInfoDTO> calenderInfoDTOS;
     }
 }
