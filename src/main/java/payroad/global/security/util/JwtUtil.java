@@ -29,7 +29,6 @@ public class JwtUtil {
     private static final String HASH_ALGORITHM = Jwts.SIG.HS256.key().build().getAlgorithm();
     private static final String PAYLOAD_MEMBER_ID_KEY = "memberId";
     private static final String PAYLOAD_EMAIL_KEY = "email";
-    private static final String PAYLOAD_ROLE_TYPE = "roleType";
 
 
     public JwtUtil(@Value("${jwt.secret}") String secret,

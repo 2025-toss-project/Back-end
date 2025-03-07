@@ -57,7 +57,7 @@ public class BudgetService {
                 Category category = categoryRepository.findByName(budget.getCategory())
                     .orElseThrow(() -> new GeneralException(ErrorStatus.CATEGORY_NOT_FIND));
                 return
-                    BudgetConverter.toBudget(budget, member, category);
+                    BudgetConverter.toBudget(budget.getPrice(), member, category);
             }).toList();
 
         budgetRepository.saveAll(budgetList);
@@ -77,6 +77,15 @@ public class BudgetService {
             budget.setPrice(dto.getPrice());
         });
 
+        return true;
+    }
+
+    @Transactional
+    public Boolean initBudget(Member member){
+        List<Budget> list = categoryRepository.findAll()
+            .stream().map(category -> BudgetConverter.toBudget(0, member, category)).toList();
+
+        budgetRepository.saveAll(list);
         return true;
     }
 }

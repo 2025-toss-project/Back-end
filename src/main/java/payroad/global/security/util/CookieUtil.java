@@ -13,7 +13,7 @@ import org.springframework.web.util.WebUtils;
 public class CookieUtil {
 
     //도메인 나오면 변경될 값
-    private static final String COOKIE_DOMAIN = "gradu-inha.com";
+    private static final String COOKIE_DOMAIN = "payroad.com";
 
     public static void addCookie(HttpServletResponse response, String name, String value,
         int maxAge) {

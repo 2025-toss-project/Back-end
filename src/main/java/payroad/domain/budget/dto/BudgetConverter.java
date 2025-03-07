@@ -44,10 +44,10 @@ public abstract class BudgetConverter {
             .build();
     }
 
-    public static Budget toBudget(BudgetRequest.BudgetCreateDTO budgetCreateDTO, Member member,
+    public static Budget toBudget(int price, Member member,
         Category category) {
         return Budget.builder()
-            .price(budgetCreateDTO.getPrice())
+            .price(price)
             .member(member)
             .category(category)
             .build();

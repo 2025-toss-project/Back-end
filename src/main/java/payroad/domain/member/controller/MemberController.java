@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import payroad.domain.budget.service.BudgetService;
 import payroad.domain.member.Member;
 import payroad.domain.member.dto.MemberConverter;
 import payroad.domain.member.dto.MemberRequest;
@@ -13,6 +14,8 @@ import payroad.domain.member.dto.MemberResponse;
 import payroad.domain.member.dto.MemberResponse.JoinResponse;
 import payroad.domain.member.service.MemberService;
 import payroad.global.response.ApiResponse;
+import payroad.global.response.exception.GeneralException;
+import payroad.global.response.status.ErrorStatus;
 import payroad.global.security.annotation.LoginMember;
 
 @RestController
@@ -21,11 +24,16 @@ import payroad.global.security.annotation.LoginMember;
 public class MemberController {
 
     private final MemberService memberService;
+    private final BudgetService budgetService;
 
     @PostMapping("/join")
-    public ApiResponse<MemberResponse.JoinResponse> join(@RequestBody @Valid MemberRequest.JoinDTO request) {
+    public ApiResponse<MemberResponse.JoinResponse> join(
+        @RequestBody @Valid MemberRequest.JoinDTO request) {
         MemberResponse.JoinResponse joinResponse = memberService.join(request);
-
+        Member memberByEmail = memberService.findMemberByEmail(joinResponse.getEmail());
+        if(!budgetService.initBudget(memberByEmail)){
+            throw new GeneralException(ErrorStatus.BUDGET_ERROR);
+        }
         return ApiResponse.onSuccess(joinResponse);
     }
 

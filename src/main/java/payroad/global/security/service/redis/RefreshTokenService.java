@@ -1,5 +1,6 @@
 package payroad.global.security.service.redis;
 
+import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -42,11 +43,23 @@ public class RefreshTokenService {
         return refreshTokenRepository.findByRefreshToken(token).isPresent();
     }
 
-    public String refreshAccessToken(String token) {
+    public Map<String, String> refreshAccessToken(String token) {
         Long memberId = jwtUtil.getMemberId(token);
         String email = jwtUtil.getEmail(token);
 //        RoleType roleType = RoleType.valueOf(jwtUtil.getRoleType(token));
+        String newAccessToken = jwtUtil.createJwt(memberId, email, true);
+        String refreshToken = jwtUtil.createJwt(memberId, email, false);
 
-        return jwtUtil.createJwt(memberId, email, true);
+        RefreshToken updatedRefreshToken = refreshTokenRepository.findByMemberId(memberId)
+            .map(originalRefreshToken -> originalRefreshToken.update(refreshToken))
+            .orElse(new RefreshToken(memberId, refreshToken));
+        refreshTokenRepository.save(updatedRefreshToken);
+
+        Map<String, String> tokens = Map.of(
+            "accessToken", newAccessToken,
+            "refreshToken", refreshToken
+        );
+
+        return tokens;
     }
 }
