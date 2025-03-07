@@ -73,7 +73,7 @@ public class BudgetService {
         budgetUpdateListDTO.getBudgetUpdateDTOList().forEach(dto -> {
             Budget budget = budgetRepository.findById(dto.getBudgetId())
                 .orElseThrow(() -> new GeneralException(ErrorStatus.BUDGET_NOT_FIND));
-
+            if(!budget.getMember().getId().equals(member.getId())) { new GeneralException(ErrorStatus.BUDGET_NOT_FIND); }
             budget.setPrice(dto.getPrice());
         });
 

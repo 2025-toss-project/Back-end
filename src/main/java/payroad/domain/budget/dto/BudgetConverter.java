@@ -33,10 +33,14 @@ public abstract class BudgetConverter {
         int totalBudget = budgetList.stream()
             .filter(budget -> "전체".equals(budget.getCategory().getName()))
             .mapToInt(Budget::getPrice).sum();
+        long totalId = budgetList.stream()
+            .filter(budget -> "전체".equals(budget.getCategory().getName()))
+            .mapToLong(Budget::getId).sum();
         int totalSpend = ConsumptionSumByCategory.values().stream().mapToInt(Integer::intValue)
             .sum();
 
         return BudgetResponse.BudgetInfoListDTO.builder()
+            .totalId(totalId)
             .totalBudget(totalBudget)
             .totalSpend(totalSpend)
             .totalPercentage(BudgetUtils.calculateToPercentage(totalBudget, totalSpend))

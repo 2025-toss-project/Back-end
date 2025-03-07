@@ -31,7 +31,7 @@ public abstract class BudgetResponse {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class BudgetInfoListDTO {
-
+        private long totalId;
         private int totalBudget;
         private int totalSpend;
         private int totalPercentage;
