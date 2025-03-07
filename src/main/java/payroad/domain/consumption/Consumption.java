@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import payroad.domain.category.Category;
 import payroad.domain.common.BaseEntity;
 import payroad.domain.map.MapEntity;
@@ -28,12 +29,16 @@ public class Consumption extends BaseEntity {
     @Column(name = "consumption_id")
     private Long id;
 
+    @Setter
     private Integer price;
 
+    @Setter
     private String details;
 
+    @Setter
     private LocalDate date;
 
+    @Setter
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
@@ -42,6 +47,7 @@ public class Consumption extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Setter
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "map_id")
     private MapEntity mapEntity;

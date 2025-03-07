@@ -58,7 +58,6 @@ public class ConsumptionController {
     @GetMapping("/calender")
     public ApiResponse<ConsumptionResponse.CalenderInfoListDTO> getCalenderInfo(
         @LoginMember Member member,
-        @RequestParam String category,
         @RequestParam LocalDate currentDate) {
         // todo: category 별로 받아서 처리하는 로직을 추가해야함
         CalenderInfoListDTO calenderInfo = consumptionService.getCalenderInfo(member, currentDate);
