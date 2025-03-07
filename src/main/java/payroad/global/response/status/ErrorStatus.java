@@ -43,7 +43,8 @@ public enum ErrorStatus {
     MEMBER_DUPLICATE_BY_EMAIL(HttpStatus.BAD_REQUEST, "MEMBER4002",
         "이미 가입된 email입니다. "),
     MEMBER_INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "MEMBER4003",
-        "잘못된 비밀번호 입니다. "),    /*,
+        "잘못된 비밀번호 입니다. "),
+    MEMBER_UPDATE_ERROR(HttpStatus.BAD_REQUEST,"MEMBER4004","멤버 수정에 실패했습니다."),/*,
 
      /* login용 token 관련 예외 코드*/
     INVALID_TOKEN(HttpStatus.BAD_REQUEST, "JWT4000",

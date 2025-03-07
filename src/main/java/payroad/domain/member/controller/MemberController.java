@@ -12,6 +12,7 @@ import payroad.domain.member.dto.MemberConverter;
 import payroad.domain.member.dto.MemberRequest;
 import payroad.domain.member.dto.MemberResponse;
 import payroad.domain.member.dto.MemberResponse.JoinResponse;
+import payroad.domain.member.dto.MemberResponse.MemberInfo;
 import payroad.domain.member.service.MemberService;
 import payroad.global.response.ApiResponse;
 import payroad.global.response.exception.GeneralException;
@@ -31,7 +32,7 @@ public class MemberController {
         @RequestBody @Valid MemberRequest.JoinDTO request) {
         MemberResponse.JoinResponse joinResponse = memberService.join(request);
         Member memberByEmail = memberService.findMemberByEmail(joinResponse.getEmail());
-        if(!budgetService.initBudget(memberByEmail)){
+        if (!budgetService.initBudget(memberByEmail)) {
             throw new GeneralException(ErrorStatus.BUDGET_ERROR);
         }
         return ApiResponse.onSuccess(joinResponse);
@@ -58,6 +59,19 @@ public class MemberController {
     public ApiResponse<MemberResponse.MemberInfo> getMemberInfo(@LoginMember Member member) {
         MemberResponse.MemberInfo memberInfo = memberService.getMemberInfo(member);
 
+        return ApiResponse.onSuccess(memberInfo);
+    }
+
+    @PostMapping("/update")
+    public ApiResponse<MemberResponse.MemberInfo> updateMember(
+        @LoginMember Member member,
+        @RequestBody MemberRequest.UpdateInfoDTO request
+    ) {
+        Boolean success = memberService.updateMemberInfo(member, request);
+        if (!success) {
+            throw new GeneralException(ErrorStatus.MEMBER_UPDATE_ERROR);
+        }
+        MemberInfo memberInfo = memberService.getMemberInfo(member);
         return ApiResponse.onSuccess(memberInfo);
     }
 

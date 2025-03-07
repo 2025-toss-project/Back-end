@@ -55,4 +55,25 @@ public abstract class MemberRequest {
         @NotNull
         private String newPassword;
     }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UpdateInfoDTO{
+        @NotNull
+        @Email
+        private String email;
+
+        @NotNull
+        private String nickName;
+
+        @NotNull
+        private String type;
+
+        @NotNull
+        private Home home;
+
+        @NotNull
+        private String ageGroup;
+    }
 }

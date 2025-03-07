@@ -19,6 +19,7 @@ import payroad.domain.common.BaseEntity;
 @NoArgsConstructor
 @Getter
 @ToString
+@Setter
 public class Member extends BaseEntity {
 
     @Id
@@ -34,7 +35,6 @@ public class Member extends BaseEntity {
     private String nickname;
 
     @Column(nullable = false)
-    @Setter
     private String password;
 
     private Type type;
