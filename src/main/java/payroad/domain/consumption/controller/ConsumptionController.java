@@ -53,7 +53,7 @@ public class ConsumptionController {
     @Operation(summary = "캘린더 지출내역 조회 api", description = "내 지출내역을 카테고리와 시작 끝 날짜를 입력을 받고 조회해주는 api입니다.<br>**반환 형식(리스트)**<br>")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(
         responseCode = "200", description = "성공",
-        content = @Content(schema = @Schema(implementation = ConsumptionResponse.ConsumptionInfoDTOList.class))
+        content = @Content(schema = @Schema(implementation = ConsumptionResponse.CalenderInfoListDTO.class))
     )
     @GetMapping("/calender")
     public ApiResponse<ConsumptionResponse.CalenderInfoListDTO> getCalenderInfo(
