@@ -35,7 +35,7 @@ public abstract class MemberResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Home {
-        Double lan;
+        Double lng;
         Double lat;
     }
 

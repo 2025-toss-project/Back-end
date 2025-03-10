@@ -37,7 +37,7 @@ public class MemberConverter {
             .email(member.getEmail())
             .ageGroup(member.getAgeGroup().getLabel())
             .home(Home.builder()
-                .lan(member.getMyLocation().getX())
+                .lng(member.getMyLocation().getX())
                 .lat(member.getMyLocation().getY())
                 .build())
             .type(member.getType().toString())
