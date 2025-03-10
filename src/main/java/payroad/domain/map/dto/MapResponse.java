@@ -1,6 +1,8 @@
 package payroad.domain.map.dto;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.PrimitiveIterator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +23,7 @@ public abstract class MapResponse {
         private String locationName;
         private Double lat;
         private Double lng;
+        private LocalDate date;
         private int price;
     }
 

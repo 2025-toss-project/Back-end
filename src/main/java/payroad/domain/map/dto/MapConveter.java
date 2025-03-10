@@ -33,6 +33,7 @@ public abstract class MapConveter {
             .lat(consumption.getMapEntity().getLocation().getY())  // Map의 위도
             .lng(consumption.getMapEntity().getLocation().getX())  // Map의 경도
             .price(consumption.getPrice())  // Consumption의 가격
+            .date(consumption.getDate())
             .build();
     }
 
