@@ -45,13 +45,13 @@ public class MapController {
     @GetMapping("/all")
     public ApiResponse<MapResponse.CategoryMapInfoListDTO> getMapInfo(
         @LoginMember Member member,
-        @RequestParam Double lan,
-        @RequestParam Double lon,
+        @RequestParam Double lat,
+        @RequestParam Double lng,
         @RequestParam Double radius
     ) {
         // todo: 일단 50KM로 설정해두고 진행한다. 5000.0
 
-        CategoryMapInfoListDTO allMapInfo = mapService.getAllMapInfo(member, lan, lon, 5.0);
+        CategoryMapInfoListDTO allMapInfo = mapService.getAllMapInfo(member, lat, lng, 5.0);
         return ApiResponse.onSuccess(allMapInfo);
     }
 
