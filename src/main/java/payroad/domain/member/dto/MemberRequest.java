@@ -42,6 +42,9 @@ public abstract class MemberRequest {
 
         @NotNull
         private Double lng;
+
+        @NotNull
+        private String address;
     }
 
 

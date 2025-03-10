@@ -44,14 +44,17 @@ public class Member extends BaseEntity {
     @Column(nullable = false, columnDefinition = "POINT SRID 4326")
     private Point myLocation;
 
+    private String address;
+
     @Builder
-    public Member(String email, String nickname, String password, AgeGroup ageGroup, Type type,Point myLocation) {
+    public Member(String email, String nickname, String password, AgeGroup ageGroup, Type type,Point myLocation, String address) {
         this.email = email;
         this.nickname = nickname;
         this.password = password;
         this.ageGroup = ageGroup;
         this.type = type;
         this.myLocation = myLocation;
+        this.address = address;
     }
 
 }

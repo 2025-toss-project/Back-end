@@ -18,7 +18,8 @@ public class MemberConverter {
             .nickname(request.getNickName())
             .ageGroup(AgeGroup.fromString(request.getAgeGroup()))
             .myLocation(point)
-            .type(Type.valueOf(request.getType())) //todo : 내 집 위치도 찍어줘야함
+            .address(request.getHome().getAddress())
+            .type(Type.valueOf(request.getType()))
             .build();
     }
 

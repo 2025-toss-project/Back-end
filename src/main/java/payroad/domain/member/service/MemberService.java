@@ -74,6 +74,7 @@ public class MemberService {
         updateMember.setEmail(request.getEmail());
         updateMember.setNickname(request.getNickName());
         updateMember.setMyLocation(point);
+        updateMember.setAddress(request.getHome().getAddress());
 
         memberRepository.save(updateMember);
 
