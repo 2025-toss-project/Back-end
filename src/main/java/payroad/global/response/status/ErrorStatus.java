@@ -54,7 +54,9 @@ public enum ErrorStatus {
     TOKEN_IS_EXPIRED(HttpStatus.BAD_REQUEST, "JWT4002",
         "만료된 토큰입니다."),
     AUTHENTICATION_TYPE_IS_NOT_BEARER(HttpStatus.BAD_REQUEST, "JWT4003",
-        "잘못된 토큰 타입입니다.")
+        "잘못된 토큰 타입입니다."),
+
+    CHART_NOT_FIND(HttpStatus.BAD_REQUEST,"CHART400", "총소비량이 0원입니다.")
 
 
     ;

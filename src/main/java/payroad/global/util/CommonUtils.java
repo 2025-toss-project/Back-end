@@ -11,4 +11,13 @@ public abstract class CommonUtils {
     public static int getCurrentYear() {
         return LocalDate.now().getYear();  // 현재 년도를 반환
     }
+
+    public static LocalDate getCurrentNow(){ // 현재 LocalDate값을 반환
+        return LocalDate.now();
+    }
+
+    public static LocalDate getMinusDate(){ // 현재 LocalDate값을 반환
+        return LocalDate.now().minusMonths(12).withDayOfMonth(1);
+    }
+
 }
