@@ -64,14 +64,14 @@ public class MapController {
     public ApiResponse<MapResponse.CategoryMapInfoListDTO> getOtherMapInfo(
         @LoginMember Member member,
         @RequestParam String type,
-        @RequestParam Double lan,
-        @RequestParam Double lon,
+        @RequestParam Double lat,
+        @RequestParam Double lng,
         @RequestParam Double radius
     ){
         // todo : 일다 radius의 값은 50km로 해둔다.
         radius=50.0;
 
-        CategoryMapInfoListDTO otherMapInfo = mapService.getOtherMapInfo(member, type, lan, lon, radius);
+        CategoryMapInfoListDTO otherMapInfo = mapService.getOtherMapInfo(member, type, lat, lng, radius);
         return ApiResponse.onSuccess(otherMapInfo);
     }
 }

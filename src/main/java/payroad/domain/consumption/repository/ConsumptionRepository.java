@@ -61,12 +61,9 @@ public interface ConsumptionRepository extends JpaRepository<Consumption, Long> 
         @Param("radius") double radius);
 
     // 자신을 제외 다른 사람들의 지출내역을 가져 오는 쿼리
-    @Query(value = "SELECT * FROM consumption c "
-        + "WHERE c.member_id IN ("
-        + "    SELECT DISTINCT m.id FROM member m "
-        + "    WHERE m.id != :memberId AND m.type = :type "
-        + "    ORDER BY RAND() LIMIT 10"
-        + ")"
+    @Query(value = "SELECT * FROM consumption WHERE member_id"
+        + " IN ( SELECT member_id FROM "
+        + "( SELECT DISTINCT m.member_id FROM member m WHERE m.member_id != :memberId AND m.type = :type  ORDER BY RAND() LIMIT 10 ) AS temp )"
         , nativeQuery = true)
     List<Consumption> findByNotMember(
         @Param("memberId") Long memberId,
