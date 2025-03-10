@@ -20,7 +20,7 @@ public abstract class MemberRequest {
         private String password;
 
         @NotNull
-        private String nickName;
+        private String nickname;
 
         @NotNull
         private String type;
@@ -68,7 +68,7 @@ public abstract class MemberRequest {
         private String email;
 
         @NotNull
-        private String nickName;
+        private String nickname;
 
         @NotNull
         private String type;

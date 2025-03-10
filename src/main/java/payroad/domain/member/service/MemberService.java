@@ -72,7 +72,7 @@ public class MemberService {
         updateMember.setAgeGroup(AgeGroup.fromString(request.getAgeGroup()));
         updateMember.setType(Type.valueOf(request.getType()));
         updateMember.setEmail(request.getEmail());
-        updateMember.setNickname(request.getNickName());
+        updateMember.setNickname(request.getNickname());
         updateMember.setMyLocation(point);
         updateMember.setAddress(request.getHome().getAddress());
 

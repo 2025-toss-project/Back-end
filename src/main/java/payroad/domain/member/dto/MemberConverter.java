@@ -15,7 +15,7 @@ public class MemberConverter {
     public Member toEntity(MemberRequest.JoinDTO request, Point point) {
         return Member.builder()
             .email(request.getEmail())
-            .nickname(request.getNickName())
+            .nickname(request.getNickname())
             .ageGroup(AgeGroup.fromString(request.getAgeGroup()))
             .myLocation(point)
             .address(request.getHome().getAddress())
