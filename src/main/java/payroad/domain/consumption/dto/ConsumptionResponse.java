@@ -20,7 +20,7 @@ public abstract class ConsumptionResponse {
         private String details;
         private Double lat;
         private Double lng;
-        private String localName;
+        private String locationName;
     }
 
 

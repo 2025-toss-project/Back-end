@@ -100,7 +100,7 @@ public abstract class ConsumptionConverter {
                                 .details(consumption.getDetails())
                                 .lat(consumption.getMapEntity().getLocation().getY()) //위도
                                 .lng(consumption.getMapEntity().getLocation().getX()) // 경도
-                                .localName(consumption.getMapEntity().getName()) // 포인트 이름
+                                .locationName(consumption.getMapEntity().getName()) // 포인트 이름
                                 .build(),
                             Collectors.toList()
                         )
