@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import payroad.domain.category.Category;
 
 public abstract class MapResponse {
@@ -31,6 +32,37 @@ public abstract class MapResponse {
     @NoArgsConstructor
     @Getter
     @Builder
+    public static class MapLocationInfoDTO{
+        private double lat;
+        private double lng;
+        @Setter
+        private int totalPrice;
+        List<MapDetailInfoDTO> details;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Builder
+    public static class MapInfoListDTO {
+
+        private String category;
+        private List<MapLocationInfoDTO> mapInfoDTOList;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Builder
+    public static class CategoryMapInfoListDTO {
+
+        private List<MapInfoListDTO> mapInfoListDTOList;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Builder
     public static class MapOtherInfoDTO {
         private String type;
         private String ageGroup;
@@ -49,25 +81,6 @@ public abstract class MapResponse {
 
         private String category;
         private List<MapOtherInfoDTO> mapInfoDTOList;
-    }
-
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Getter
-    @Builder
-    public static class MapInfoListDTO {
-
-        private String category;
-        private List<MapDetailInfoDTO> mapInfoDTOList;
-    }
-
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Getter
-    @Builder
-    public static class CategoryMapInfoListDTO {
-
-        private List<MapInfoListDTO> mapInfoListDTOList;
     }
 
 }

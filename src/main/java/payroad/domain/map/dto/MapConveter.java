@@ -1,6 +1,8 @@
 package payroad.domain.map.dto;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -44,22 +46,67 @@ public abstract class MapConveter {
         List<Consumption> consumptions
     ) {
         // 카테고리별로 소비 내역을 그룹화
-        Map<String, List<MapDetailInfoDTO>> groupedByCategory = consumptions.stream()
+        List<MapResponse.MapDetailInfoDTO> allDetails = consumptions.stream()
             .map(MapConveter::toMapDetailInfo)
-            .collect(Collectors.groupingBy(MapResponse.MapDetailInfoDTO::getCategory));
+            .collect(Collectors.toList());
 
-        // 카테고리별로 MapDetailInfoDTO 리스트 생성
         List<MapResponse.MapInfoListDTO> mapInfoListDTOList = new ArrayList<>();
 
-        // 카테고리별 MapDetailInfoDTO 리스트 생성
-        for (Map.Entry<String, List<MapResponse.MapDetailInfoDTO>> entry : groupedByCategory.entrySet()) {
-            String category = entry.getKey();
-            List<MapResponse.MapDetailInfoDTO> categoryDetailInfoList = entry.getValue();
+        // lat, lng 별로 묶고, 같은 위치에 있는 항목들은 날짜순으로 정렬
+        Map<String, MapResponse.MapLocationInfoDTO> locationInfoMap = new LinkedHashMap<>();
 
-            // MapInfoListDTO 생성
+        for (MapResponse.MapDetailInfoDTO detailInfo : allDetails) {
+            // lat, lng를 키로 묶기 위한 문자열
+            String locationKey = detailInfo.getLat() + "," + detailInfo.getLng();
+
+            // 위치가 이미 존재하면, 해당 위치에 카테고리와 날짜 정보 추가
+            MapResponse.MapLocationInfoDTO locationInfo = locationInfoMap.get(locationKey);
+            if (locationInfo == null) {
+                locationInfo = MapResponse.MapLocationInfoDTO.builder()
+                    .lat(detailInfo.getLat())
+                    .lng(detailInfo.getLng())
+                    .details(new ArrayList<>())
+                    .totalPrice(0)
+                    .build();
+                locationInfoMap.put(locationKey, locationInfo);
+            }
+
+            // 날짜가 빠른 항목을 우선으로 리스트에 추가
+            locationInfo.getDetails().add(detailInfo);
+            locationInfo.setTotalPrice(
+                locationInfo.getTotalPrice() + detailInfo.getPrice()); // 총 가격 업데이트
+        }
+
+        // MapLocationInfoDTO 리스트로 변환 후, 날짜순으로 정렬
+        List<MapResponse.MapLocationInfoDTO> locationInfoList = new ArrayList<>(
+            locationInfoMap.values());
+
+        // 각 위치의 세부 정보를 날짜순으로 정렬
+        locationInfoList.forEach(locationInfo -> locationInfo.getDetails()
+            .sort(Comparator.comparing(MapResponse.MapDetailInfoDTO::getDate).reversed()));
+
+        // 카테고리별로 묶은 결과 생성
+        // 카테고리별로 분리하고 그 안에서 묶인 locationInfo를 추가
+        Map<String, List<MapResponse.MapLocationInfoDTO>> groupedByCategory = new LinkedHashMap<>();
+
+        for (MapResponse.MapLocationInfoDTO locationInfo : locationInfoList) {
+            MapResponse.MapDetailInfoDTO firstDetailInfo = locationInfo.getDetails().get(0);
+            String category = firstDetailInfo.getCategory();
+
+            // 카테고리별로 묶어서 추가
+            groupedByCategory
+                .computeIfAbsent(category, k -> new ArrayList<>())
+                .add(locationInfo);
+        }
+
+        // 카테고리별로 MapInfoListDTO 생성
+        for (Map.Entry<String, List<MapResponse.MapLocationInfoDTO>> entry : groupedByCategory.entrySet()) {
+            String category = entry.getKey();
+            List<MapResponse.MapLocationInfoDTO> locationInfoForCategory = entry.getValue();
+
             MapResponse.MapInfoListDTO mapInfoListDTO = MapResponse.MapInfoListDTO.builder()
                 .category(category)
-                .mapInfoDTOList(categoryDetailInfoList)
+                .mapInfoDTOList(locationInfoForCategory)
                 .build();
 
             mapInfoListDTOList.add(mapInfoListDTO);
@@ -68,6 +115,23 @@ public abstract class MapConveter {
         return MapResponse.CategoryMapInfoListDTO.builder()
             .mapInfoListDTOList(mapInfoListDTOList)
             .build();
+
+        // 카테고리별로 MapDetailInfoDTO 리스트 생성
+//        List<MapResponse.MapInfoListDTO> mapInfoListDTOList = new ArrayList<>();
+//
+//        // 카테고리별 MapDetailInfoDTO 리스트 생성
+//        for (Map.Entry<String, List<MapResponse.MapDetailInfoDTO>> entry : groupedByCategory.entrySet()) {
+//            String category = entry.getKey();
+//            List<MapResponse.MapDetailInfoDTO> categoryDetailInfoList = entry.getValue();
+//
+//            // MapInfoListDTO 생성
+//            MapResponse.MapInfoListDTO mapInfoListDTO = MapResponse.MapInfoListDTO.builder()
+//                .category(category)
+//                .mapInfoDTOList(categoryDetailInfoList)
+//                .build();
+//
+//            mapInfoListDTOList.add(mapInfoListDTO);
+//        }
     }
 
     // Consumption을 MapDetailInfoDTO로 변환
@@ -99,7 +163,8 @@ public abstract class MapConveter {
             ));
 
         // 카테고리별로 MapDetailInfoDTO 리스트 생성
-        Map<String, List<MapResponse.MapOtherInfoDTO>> groupedByCategory = uniqueMapInfo.values().stream()
+        Map<String, List<MapResponse.MapOtherInfoDTO>> groupedByCategory = uniqueMapInfo.values()
+            .stream()
             .collect(Collectors.groupingBy(MapResponse.MapOtherInfoDTO::getCategory));
 
         // 카테고리별 MapDetailInfoDTO 리스트 생성
