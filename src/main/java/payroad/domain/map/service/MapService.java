@@ -44,7 +44,7 @@ public class MapService {
         return MapConveter.toMapInfoList(consumptions);
     }
 
-    public List<MapResponse.MapOtherInfoListDTO> getOtherMapInfo(
+    public MapResponse.CategoryMapOtherInfoListDTO getOtherMapInfo(
         Member member, String type, Double lan, Double lon, Double radius
     ) {
         int typeEnum = Type.valueOf(type).ordinal();

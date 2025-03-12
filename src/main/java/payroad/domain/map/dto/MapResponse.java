@@ -83,4 +83,13 @@ public abstract class MapResponse {
         private List<MapOtherInfoDTO> mapInfoDTOList;
     }
 
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Builder
+    public static class CategoryMapOtherInfoListDTO {
+
+        private List<MapOtherInfoListDTO> mapInfoListDTOList;
+    }
+
 }

@@ -10,8 +10,10 @@ import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Value;
 import payroad.domain.consumption.Consumption;
 import payroad.domain.map.MapEntity;
+import payroad.domain.map.dto.MapResponse.CategoryMapOtherInfoListDTO;
 import payroad.domain.map.dto.MapResponse.MapDetailInfoDTO;
 import payroad.domain.map.dto.MapResponse.MapOtherInfoDTO;
+import payroad.domain.map.dto.MapResponse.MapOtherInfoListDTO;
 import payroad.domain.member.AgeGroup;
 
 public abstract class MapConveter {
@@ -150,7 +152,7 @@ public abstract class MapConveter {
             .build();
     }
 
-    public static List<MapResponse.MapOtherInfoListDTO> toMapOtherInfoList(
+    public static MapResponse.CategoryMapOtherInfoListDTO toMapOtherInfoList(
         List<Consumption> consumptions, String type
     ) {
         // 카테고리별로 소비 내역을 그룹화
@@ -168,12 +170,16 @@ public abstract class MapConveter {
             .collect(Collectors.groupingBy(MapResponse.MapOtherInfoDTO::getCategory));
 
         // 카테고리별 MapDetailInfoDTO 리스트 생성
-        return groupedByCategory.entrySet().stream()
-            .map(entry -> MapResponse.MapOtherInfoListDTO.builder()
+        List<MapOtherInfoListDTO> list = groupedByCategory.entrySet().stream()
+            .map(entry -> MapOtherInfoListDTO.builder()
                 .category(entry.getKey())
                 .mapInfoDTOList(entry.getValue())
                 .build())
             .collect(Collectors.toList());
+
+        return CategoryMapOtherInfoListDTO.builder()
+            .mapInfoListDTOList(list)
+            .build();
     }
 }
 

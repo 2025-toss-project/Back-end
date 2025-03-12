@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import payroad.domain.map.dto.MapResponse;
 import payroad.domain.map.dto.MapResponse.CategoryMapInfoListDTO;
+import payroad.domain.map.dto.MapResponse.CategoryMapOtherInfoListDTO;
 import payroad.domain.map.dto.MapResponse.MapDetailInfoDTO;
 import payroad.domain.map.dto.MapResponse.MapOtherInfoListDTO;
 import payroad.domain.map.service.MapService;
@@ -63,7 +64,7 @@ public class MapController {
         content = @Content(schema = @Schema(implementation = MapResponse.CategoryMapInfoListDTO.class))
     )
     @GetMapping("/other")
-    public ApiResponse<List<MapOtherInfoListDTO>> getOtherMapInfo(
+    public ApiResponse<MapResponse.CategoryMapOtherInfoListDTO> getOtherMapInfo(
         @LoginMember Member member,
         @RequestParam String type,
         @RequestParam Double lat,
@@ -73,7 +74,8 @@ public class MapController {
         // todo : 일다 radius의 값은 50km로 해둔다.
         radius=50.0;
 
-        List<MapResponse.MapOtherInfoListDTO> otherMapInfo = mapService.getOtherMapInfo(member, type, lat, lng, radius);
+        CategoryMapOtherInfoListDTO otherMapInfo = mapService.getOtherMapInfo(member, type, lat,
+            lng, radius);
         return ApiResponse.onSuccess(otherMapInfo);
     }
 }
