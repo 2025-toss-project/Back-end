@@ -31,6 +31,30 @@ public abstract class MapResponse {
     @NoArgsConstructor
     @Getter
     @Builder
+    public static class MapOtherInfoDTO {
+        private String type;
+        private String ageGroup;
+        private String category;
+        private String locationName;
+        private Double lat;
+        private Double lng;
+        private int price;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Builder
+    public static class MapOtherInfoListDTO {
+
+        private String category;
+        private List<MapOtherInfoDTO> mapInfoDTOList;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Builder
     public static class MapInfoListDTO {
 
         private String category;

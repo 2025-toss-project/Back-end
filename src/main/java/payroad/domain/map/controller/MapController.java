@@ -3,6 +3,7 @@ package payroad.domain.map.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import payroad.domain.map.dto.MapResponse;
 import payroad.domain.map.dto.MapResponse.CategoryMapInfoListDTO;
 import payroad.domain.map.dto.MapResponse.MapDetailInfoDTO;
+import payroad.domain.map.dto.MapResponse.MapOtherInfoListDTO;
 import payroad.domain.map.service.MapService;
 import payroad.domain.member.Member;
 import payroad.global.response.ApiResponse;
@@ -61,7 +63,7 @@ public class MapController {
         content = @Content(schema = @Schema(implementation = MapResponse.CategoryMapInfoListDTO.class))
     )
     @GetMapping("/other")
-    public ApiResponse<MapResponse.CategoryMapInfoListDTO> getOtherMapInfo(
+    public ApiResponse<List<MapOtherInfoListDTO>> getOtherMapInfo(
         @LoginMember Member member,
         @RequestParam String type,
         @RequestParam Double lat,
@@ -71,7 +73,7 @@ public class MapController {
         // todo : 일다 radius의 값은 50km로 해둔다.
         radius=50.0;
 
-        CategoryMapInfoListDTO otherMapInfo = mapService.getOtherMapInfo(member, type, lat, lng, radius);
+        List<MapResponse.MapOtherInfoListDTO> otherMapInfo = mapService.getOtherMapInfo(member, type, lat, lng, radius);
         return ApiResponse.onSuccess(otherMapInfo);
     }
 }

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import payroad.domain.analytics.dto.AnalyticsConverter;
@@ -19,6 +20,7 @@ import payroad.global.util.CommonUtils;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class AnalyticsService {
 
     private final ConsumptionRepository consumptionRepository;

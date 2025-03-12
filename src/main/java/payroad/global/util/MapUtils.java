@@ -12,6 +12,8 @@ import payroad.domain.consumption.Consumption;
 public abstract class MapUtils {
 
     private static final GeometryFactory geometryFactory = new GeometryFactory();
+    private static final int TILE_SIZE = 256;
+
 
     public static List<Consumption> getConsumptionByDistance(List<Consumption> consumptions,
         double radius, double latitude, double longitude
@@ -29,6 +31,15 @@ public abstract class MapUtils {
         return consumptions.stream()
             .filter(consumption -> buffer.contains(consumption.getMapEntity().getLocation()))
             .collect(Collectors.toList());
+    }
+
+    public static int[] getTileCoordinates(double latitude, double longitude, int zoom) {
+        double scale = 1 << zoom;
+        int x = (int) Math.floor((longitude + 180.0) / 360.0 * Math.pow(2, scale));
+        int y = (int) Math.floor((1 - Math.log(Math.toRadians(latitude)) +
+            1 / Math.cos((Math.toRadians(latitude))) / Math.PI) / 2 * Math.pow(2, scale));
+
+        return new int[]{x, y};
     }
 
 }

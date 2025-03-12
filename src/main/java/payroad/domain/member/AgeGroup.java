@@ -32,5 +32,12 @@ public enum AgeGroup {
         }
         throw new IllegalArgumentException("Unexpected value: " + age);
     }
+    public static String fromIndex(int index) {
+        AgeGroup[] values = AgeGroup.values();
+        if (index < 0 || index >= values.length) {
+            throw new IllegalArgumentException("Invalid index: " + index);
+        }
+        return values[index].getLabel();
+    }
 
 }

@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.locationtech.jts.geom.Point;
+import org.springframework.beans.factory.annotation.Value;
 import payroad.domain.consumption.Consumption;
 import payroad.domain.map.MapEntity;
 import payroad.domain.map.dto.MapResponse.MapDetailInfoDTO;
+import payroad.domain.map.dto.MapResponse.MapOtherInfoDTO;
+import payroad.domain.member.AgeGroup;
 
 public abstract class MapConveter {
 
@@ -37,7 +40,6 @@ public abstract class MapConveter {
             .build();
     }
 
-
     public static MapResponse.CategoryMapInfoListDTO toMapInfoList(
         List<Consumption> consumptions
     ) {
@@ -66,6 +68,47 @@ public abstract class MapConveter {
         return MapResponse.CategoryMapInfoListDTO.builder()
             .mapInfoListDTOList(mapInfoListDTOList)
             .build();
+    }
+
+    // Consumption을 MapDetailInfoDTO로 변환
+    public static MapResponse.MapOtherInfoDTO toOtherMapDetailInfo(
+        Consumption consumption,
+        String type
+    ) {
+        return MapResponse.MapOtherInfoDTO.builder()
+            .category(consumption.getCategory().getName())  // Map의 카테고리
+            .locationName(consumption.getMapEntity().getName())  // Map의 위치 이름
+            .lat(consumption.getMapEntity().getLocation().getY())  // Map의 위도
+            .lng(consumption.getMapEntity().getLocation().getX())  // Map의 경도
+            .price(consumption.getPrice())  // Consumption의 가격
+            .type(type)
+            .ageGroup(consumption.getMember().getAgeGroup().getLabel())
+            .build();
+    }
+
+    public static List<MapResponse.MapOtherInfoListDTO> toMapOtherInfoList(
+        List<Consumption> consumptions, String type
+    ) {
+        // 카테고리별로 소비 내역을 그룹화
+        Map<String, MapOtherInfoDTO> uniqueMapInfo = consumptions.stream()
+            .map(consumption -> MapConveter.toOtherMapDetailInfo(consumption, type)
+            ).collect(Collectors.toMap(
+                dto -> dto.getLat() + "," + dto.getLng(), // 키: "lat,lng" 문자열
+                dto -> dto, // 값: dto 객체
+                (existing, replacement) -> existing // 중복 발생 시 기존 값 유지
+            ));
+
+        // 카테고리별로 MapDetailInfoDTO 리스트 생성
+        Map<String, List<MapResponse.MapOtherInfoDTO>> groupedByCategory = uniqueMapInfo.values().stream()
+            .collect(Collectors.groupingBy(MapResponse.MapOtherInfoDTO::getCategory));
+
+        // 카테고리별 MapDetailInfoDTO 리스트 생성
+        return groupedByCategory.entrySet().stream()
+            .map(entry -> MapResponse.MapOtherInfoListDTO.builder()
+                .category(entry.getKey())
+                .mapInfoDTOList(entry.getValue())
+                .build())
+            .collect(Collectors.toList());
     }
 }
 
