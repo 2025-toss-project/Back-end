@@ -37,6 +37,7 @@ public abstract class MemberResponse {
     public static class Home {
         Double lng;
         Double lat;
+        String address;
     }
 
 }

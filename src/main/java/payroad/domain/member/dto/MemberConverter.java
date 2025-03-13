@@ -39,6 +39,7 @@ public class MemberConverter {
             .home(Home.builder()
                 .lng(member.getMyLocation().getX())
                 .lat(member.getMyLocation().getY())
+                .address(member.getAddress())
                 .build())
             .type(member.getType().toString())
             .build();
