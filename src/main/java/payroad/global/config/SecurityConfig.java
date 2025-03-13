@@ -54,7 +54,8 @@ public class SecurityConfig {
                         configuration.setAllowedOrigins(List.of(
                             "http://localhost:5173", // 개발 환경
                             "http://localhost:8080", // 개발 환경
-                            "http://3.37.61.199:8080"
+                            "http://3.37.61.199:8080",
+                            "https://payroad-sooty.vercel.app" // 배포 환경
                         ));
 
                         configuration.setAllowedMethods(
