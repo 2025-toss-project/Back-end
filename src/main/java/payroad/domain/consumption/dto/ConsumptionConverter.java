@@ -1,6 +1,7 @@
 package payroad.domain.consumption.dto;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -124,6 +125,7 @@ public abstract class ConsumptionConverter {
                 )
             ).collect(Collectors.toList());
 
+        Collections.reverse(consumptionInfoByDateDTOS);
 
         // 최종 DTO 생성
         return ConsumptionInfoDTOList.builder()
