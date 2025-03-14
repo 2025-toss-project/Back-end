@@ -14,7 +14,7 @@ public abstract class ConsumptionRequest {
     public static class ConsumptionCreateDTO {
 
         int price;
-        String detail;
+        String details;
         String category;
         Double lat;// 위도
         Double lng; // 경도
@@ -29,7 +29,7 @@ public abstract class ConsumptionRequest {
 
         Long id;
         int price;
-        String detail;
+        String details;
         String category;
         Double lat;// 위도
         Double lng; // 경도

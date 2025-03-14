@@ -25,7 +25,7 @@ public abstract class ConsumptionConverter {
     ) {
         return Consumption.builder()
             .price(consumptionCreateDTO.getPrice())
-            .details(consumptionCreateDTO.getDetail())
+            .details(consumptionCreateDTO.getDetails())
             .category(category)
             .date(consumptionCreateDTO.getDate())
             .member(member)
@@ -43,7 +43,7 @@ public abstract class ConsumptionConverter {
             .id(consumptionUpdateDTO.getId())
             .member(member)
             .category(category)
-            .details(consumptionUpdateDTO.getDetail())
+            .details(consumptionUpdateDTO.getDetails())
             .date(consumptionUpdateDTO.getDate())
             .price(consumptionUpdateDTO.getPrice())
             .mapEntity(mapEntity)
