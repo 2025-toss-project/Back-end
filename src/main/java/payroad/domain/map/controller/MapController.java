@@ -54,7 +54,7 @@ public class MapController {
     ) {
         // todo: 일단 50KM로 설정해두고 진행한다. 5000.0
 
-        CategoryMapInfoListDTO allMapInfo = mapService.getAllMapInfo(member, lat, lng, 5.0);
+        CategoryMapInfoListDTO allMapInfo = mapService.getAllMapInfo(member, lat, lng, radius);
         return ApiResponse.onSuccess(allMapInfo);
     }
 
@@ -72,7 +72,7 @@ public class MapController {
         @RequestParam Double radius
     ){
         // todo : 일다 radius의 값은 50km로 해둔다.
-        radius=50.0;
+//        radius=50.0;
 
         CategoryMapOtherInfoListDTO otherMapInfo = mapService.getOtherMapInfo(member, type, lat,
             lng, radius);
